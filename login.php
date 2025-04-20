@@ -1,69 +1,56 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $usuario = $_POST['usuario'] ?? '';
+    $password = $_POST['password'] ?? '';
+    $recordar = isset($_POST['recordar']) ? 'Sí' : 'No';
+    
+    if (!empty($usuario)) {
+        $mensaje = "<div class='alert alert-success'>Usuario: $usuario<br>Recordar: $recordar</div>";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Taller</title>
-  <link rel="stylesheet" href="botstrap/bot.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario PHP</title>
+    <link rel="stylesheet" href="botstrap/bot.css">
 </head>
-<body class="bg-light">
+<body class="bg-primary bg-gradient d-flex justify-content-center align-items-center vh-100">
 
-  <div class="d-flex flex-column flex-md-row vh-100">
+    <div class="card p-4 shadow-lg border-0" style="width: 100%; max-width: 400px; border-radius: 1rem;">
+        
+        <div class="text-center mb-4">
+            
+            <img src="image.png" alt="Logo del taller" class="img-fluid" style="max-width: 250px;">
+        </div>
 
-    <!-- Barra lateral -->
-    <div class="bg-primary text-white p-3" style="width: 240px;">
-      <div class="mb-4 fs-4 fw-bold">🏍 TALLER</div>
+        <?php echo $mensaje ?? ''; ?>
+        
+        <form  action = "../vento/logica/loguear.php" method="POST">
+            <h3 class="text-center mb-4">Login</h3>
 
-      <?php
-      $items = [
-        ["Inicio", "house-door-fill", "bg-info"],
-        ["Usuarios", "person-badge-fill", "bg-primary"],
-        ["Orden de trabajo", "wrench-adjustable-circle-fill", "bg-danger"],
-        ["Registrar", "journal-plus", "bg-success"],
-        ["Productos", "box-seam-fill", "bg-warning"],
-        ["Reportes", "graph-up-arrow", "bg-secondary"],
-        ["Configuración", "gear-fill", "bg-dark"],
-        ["Historial", "clock-history", "bg-light text-dark border"],
-        ["Salir", "box-arrow-left", "bg-danger"]
-      ];
-
-      foreach ($items as $item) {
-        echo '
-          <a href="#" class="d-flex align-items-center gap-3 text-white text-decoration-none mb-2 px-2 py-2 rounded bg-opacity-10 bg-white-hover">
-            <div class="d-flex justify-content-center align-items-center ' . $item[2] . ' rounded-circle" style="width: 36px; height: 36px;">
-              <i class="bi bi-' . $item[1] . '"></i>
+            <div class="mb-3">
+                <label for="usuario" class="form-label">Usuario</label>
+                <input type="text" class="form-control rounded-3" id="usuario" name="usuario" required placeholder="Usuario">
             </div>
-            <span>' . $item[0] . '</span>
-          </a>
-        ';
-      }
-      ?>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control rounded-3" id="clave" name="clave" required placeholder="Password">
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="recordar" name="recordar">
+                <label class="form-check-label" for="recordar">Recordar sesión</label>
+            </div>
+
+            <button type="submit" class="btn btn-dark w-100 rounded-3">Iniciar Sesión</button>
+        </form>
     </div>
 
-    <!-- Contenido principal -->
-    <div class="flex-grow-1 p-4" style="background-color: #edb6f3;">
-      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-        <input type="text" class="form-control w-100 w-md-50" placeholder="Buscar...">
-      </div>
-
-      <h4>Bienvenido al panel del taller</h4>
-      <p>Selecciona una opción del menú para comenzar.</p>
-    </div>
-
-  </div>
-
-  <!-- Pequeño script para hover (sin CSS externo) -->
-  <script>
-    document.querySelectorAll('.bg-white-hover').forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        item.classList.add('bg-white', 'bg-opacity-10');
-      });
-      item.addEventListener('mouseleave', () => {
-        item.classList.remove('bg-white', 'bg-opacity-10');
-      });
-    });
-  </script>
-
+   
 </body>
 </html>
