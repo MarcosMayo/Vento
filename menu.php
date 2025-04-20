@@ -53,7 +53,7 @@
 
   </div>
 
-  <!-- Pequeño script para hover (sin CSS externo) -->
+  
   <script>
     document.querySelectorAll('.bg-white-hover').forEach(item => {
       item.addEventListener('mouseenter', () => {
