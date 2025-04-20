@@ -23,7 +23,7 @@
         ["Registrar", "journal-plus", "bg-success"],
         ["Productos", "box-seam-fill", "bg-warning"],
         ["Reportes", "graph-up-arrow", "bg-secondary"],
-        ["Configuración", "gear-fill", "bg-dark"],
+         
         ["Historial", "clock-history", "bg-light text-dark border"],
         ["Salir", "box-arrow-left", "bg-danger"]
       ];
