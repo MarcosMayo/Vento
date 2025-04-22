@@ -1,15 +1,3 @@
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST['usuario'] ?? '';
-    $password = $_POST['password'] ?? '';
-    $recordar = isset($_POST['recordar']) ? 'Sí' : 'No';
-    
-    if (!empty($usuario)) {
-        $mensaje = "<div class='alert alert-success'>Usuario: $usuario<br>Recordar: $recordar</div>";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -27,9 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <img src="image.png" alt="Logo del taller" class="img-fluid" style="max-width: 250px;">
         </div>
 
-        <?php echo $mensaje ?? ''; ?>
         
-        <form  action = "../vento/logica/loguear.php" method="POST">
+        <form  action = " ../vento/logica/loguear.php " method="POST">
             <h3 class="text-center mb-4">Login</h3>
 
             <div class="mb-3">
