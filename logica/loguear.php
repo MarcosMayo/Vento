@@ -18,14 +18,14 @@ if($array['contar'] > 0)
     $_SESSION['logueado'] = $usuario;
     $_SESSION['logueadoc'] = $clave;
     
-    header("location: ../menu.php ");
+    header("location: ../vistas/index.php ");
     
 } else{
 
     echo "datos incorrectos";
 
   
-    header("location: ../login.php");
+    header("location: ../vistas/login.php");
 }
 
 ?>
