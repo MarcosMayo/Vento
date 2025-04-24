@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario PHP</title>
-    <link rel="stylesheet" href="botstrap/bot.css">
+    <link rel="stylesheet" href="../botstrap/bot.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 <body class="bg-primary bg-gradient d-flex justify-content-center align-items-center vh-100">
 
@@ -12,7 +14,7 @@
         
         <div class="text-center mb-4">
             
-            <img src="image.png" alt="Logo del taller" class="img-fluid" style="max-width: 250px;">
+            <img src="../imagenes/image.png" alt="Logo del taller" class="img-fluid" style="max-width: 250px;">
         </div>
 
         
