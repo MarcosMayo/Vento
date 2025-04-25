@@ -3,7 +3,7 @@
 
 <main class="p-3">
     <div class="container-fluid">
-        <h2 class="text-center">INICIO</h2>
+        <h2 class="text-center">Gestión de Clientes</h2>
         <!-- Aquí puedes colocar tu formulario, tabla, etc. -->
     </div>
 </main>

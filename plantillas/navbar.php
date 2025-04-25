@@ -8,8 +8,8 @@
   <link rel="stylesheet" href=" ../botstrap/bot.css ">
 </head>
 <body>
-<nav class="navbar bg-body-tertiary ">
-  <div class="container-fluid  ">
+<nav class="navbar bg-body-tertiary fixed-top w-100 ">
+  <div class="container-fluid ps-4 ">
     <a class="navbar-brand" href="#">
       <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       REFACCIONARIA CANNUL
