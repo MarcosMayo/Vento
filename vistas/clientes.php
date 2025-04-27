@@ -1,3 +1,4 @@
+<?php include("../logica/conexion.php"); ?>
 <?php include("../plantillas/header.php"); ?>
 <?php include("../plantillas/menuu.php"); ?><!-- Contenido principal -->
 <main class="p-3">
