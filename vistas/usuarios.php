@@ -19,11 +19,11 @@
             <table class="table table-hover table-striped table-bordered">
                 <thead class="table-primary">
                     <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Teléfono</th>
-                        <th scope="col">Fecha de ingreso</th>
-                        <th scope="col">Email</th>
-                        <th scope="col" class="text-center">Acciones</th>
+                        <th scope="col"><i class="bi bi-person-vcard me-2"></i>Nombre</th>
+                        <th scope="col"><i class="bi bi-telephone-fill me-2"></i>Teléfono</th>
+                        <th scope="col"><i class="bi bi-calendar-check me-2"></i>Fecha de ingreso</th>
+                        <th scope="col"><i class="bi bi-envelope-fill me-2"></i>Email</th>
+                        <th scope="col" class="text-center"><i class="bi bi-gear-fill me-2"></i>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
