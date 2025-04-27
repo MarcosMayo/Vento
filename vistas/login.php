@@ -18,7 +18,7 @@
         </div>
 
         
-        <form  action = " ../logica/loguear.php " method="POST">
+        <form  action = " ../vento/logica/loguear.php " method="POST">
             <h3 class="text-center mb-4">Login</h3>
 
             <div class="mb-3">
