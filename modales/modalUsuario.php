@@ -1,3 +1,4 @@
+<?php include("../logica/conexion.php"); ?>
 <!-- Modal para agregar usuario -->
 <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -7,34 +8,42 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
-                <form id="formAgregarUsuario">
+
+                <form id="formAgregarUsuario" action="../crud/guardarusuario.php" method="POST">
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre completo</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre Apellido">
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre Apellido" required>
                     </div>
+
                     <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono</label>
-                        <input type="text" class="form-control" id="telefono" placeholder="(00) 000-000-00-00">
-                    </div>
+                            <select name="rol" class="form-select" aria-label="Seleccione">
+                                <option selected>Seleccione</option>
+
+                                <?php
+                                $sql = $conexion->query("SELECT * FROM roles");
+                                while ($datos = $sql->fetch_object()) { ?>
+                                    <option value="<?php echo $datos->id_rol; ?>"><?php echo $datos->nombre; ?></option>
+                                <?php } ?>
+
+                            </select>
+                        </div>
+
                     <div class="mb-3">
-                        <label for="fechaIngreso" class="form-label">Fecha de ingreso</label>
-                        <input type="date" class="form-control" id="fechaIngreso">
+                        <label for="contraseña" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Ingrese una contraseña" required>
                     </div>
+
                     <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="correo@example.com">
+                        <label for="confirmar_contraseña" class="form-label">Confirmar Contraseña</label>
+                        <input type="password" class="form-control" id="confirmar_contraseña" name="confirmar_contraseña" placeholder="Confirme la contraseña" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
-                        <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña">
-                    </div>
+
                     <div class="text-end">
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
-
- 
