@@ -1,5 +1,5 @@
 <?php include("../plantillas/header.php"); ?>
-<?php include("../plantillas/menuu.php"); ?><!-- Contenido principal -->
+<?php include("../plantillas/menuu.php"); ?>
 <main class="p-3">
     <div class="container-fluid">
 
