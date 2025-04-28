@@ -20,12 +20,11 @@
             <table class="table table-hover table-striped table-bordered" id="tablaClientes">
                 <thead class="table-primary">
                     <tr>
+                        <th scope="col"><i class="bi bi-file-text me-2"></i>FOLIO</th>
                         <th scope="col"><i class="bi bi-person-vcard me-2"></i>Nombre</th>
-                        <th scope="col"><i class="bi bi-person-vcard me-2"></i>Apellidos</th>
+                        <th scope="col"><i class="bi bi-person-vcard me-2"></i>Apellido</th>
                         <th scope="col"><i class="bi bi-telephone-fill me-2"></i>Teléfono</th>
                         <th scope="col"><i class="bi bi-envelope-fill me-2"></i>Email</th>
-                        <th scope="col"><i class="bi bi-calendar-check me-2"></i>Fecha de registro</th>
-                        <th scope="col"><i class="bi bi-file-text me-2"></i>Folio</th>
                         <th scope="col" class="text-center"><i class="bi bi-gear-fill me-2"></i>Acciones</th>
                     </tr>
                 </thead>
@@ -50,7 +49,9 @@
                                 </form>
                             </td>
                         </tr>
+
                         <?php include("../modales/modalEditarclient.php"); ?>
+
                     <?php } ?>
                 </tbody>
             </table>

@@ -27,7 +27,7 @@ a {
     max-width: 264px;
     min-width: 264px;
     transition: all 0.35s ease-in-out;
-    background-color: #000;
+    background-color: black;
     display: flex;
     flex-direction: column;
 }
