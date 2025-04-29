@@ -26,38 +26,27 @@
                     <span>Ordenes de trabajo</span>
                 </a>
             </li>
-            <li class="sidebar-header">Paguinas</li>
+            <li class="sidebar-header">Sistema</li>
             <li class="sidebar-item">
                 <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                    data-bs-target="#auth" aria-expanded="true" aria-controls="auth">
-                    <i class="lni lni-protection"></i>
-                    <span>Sistema</span>
+                    data-bs-target="#registrar" aria-expanded="true" aria-controls="registrar">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Registrar</span>
                 </a>
-                <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box-arrow-in-right"></i>Iniciar sesión</a></li>
+                <ul id="registrar" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                     <li class="sidebar-item">
-                        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                            data-bs-target="#registerSubmenu" aria-expanded="false" aria-controls="registerSubmenu">
-                            <i class="bi bi-person-plus"></i>
-                            <span>Registrar</span>
-
+                        <a href="../vistas/clientes.php" class="sidebar-link">
+                            <i class="bi bi-person"></i> Cliente
                         </a>
-                        <ul id="registerSubmenu" class="sidebar-dropdown list-unstyled collapse">
-                            <li class="sidebar-item">
-                                <a href="../vistas/clientes.php" class="sidebar-link">
-                                    <i class="bi bi-person"></i> Cliente
-                                </a>
-                            </li>
-                            <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
-                                <a href="../vistas/moto.php" class="sidebar-link">
-                                    <i class="bi bi-bicycle"></i> Motos
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
+                        <a href="../vistas/moto.php" class="sidebar-link">
+                            <i class="bi bi-bicycle"></i> Motos
+                        </a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Productos</span></a></li>
+            <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Refacciones</span></a></li>
             <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-bar-chart-line"></i><span>Reportes</span></a></li>
         </ul>
         <div class="sidebar-footer">
@@ -71,6 +60,3 @@
                 <i class="lni lni-text-align-left"></i>
             </button>
         </nav>
-
-
-

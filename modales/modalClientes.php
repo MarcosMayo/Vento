@@ -7,15 +7,23 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formCliente" action="insertarcliente.php" method="POST">
+                <form id="formCliente" action="../crud/guardarcliente.php" method="POST">
                     <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="folio" class="form-label">Folio</label>
+                            <input type="number" class="form-control" id="folio" name="folio" required>
+                        </div>
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required>
                         </div>
                         <div class="col-md-6">
-                            <label for="apellidos" class="form-label">Apellidos</label>
-                            <input type="text" class="form-control" id="apellidos" name="apellidos" required>
+                            <label for="apellidos" class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido_p" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellidos" class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" id="apellido" name="apellido_m" required>
                         </div>
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Número telefónico</label>
@@ -26,21 +34,17 @@
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
                         <div class="col-md-6">
-                            <label for="fechaRegistro" class="form-label">Fecha de registro</label>
-                            <input type="date" class="form-control" id="fechaRegistro" name="fechaRegistro">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="folio" class="form-label">FOLIO</label>
-                            <input type="text" class="form-control" id="folio" name="folio" readonly>
+                            <label for="fechaRegistro" class="form-label">Direccion</label>
+                            <input type="text" class="form-control" id="direccion" name="direccion" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" id="confirmarDatos">Confirmar datos</button>
+                        <button type="submit" class="btn btn-primary" id="confirmarDatos">Guardar</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<?php
+

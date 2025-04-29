@@ -16,10 +16,10 @@
 
         <!-- Tabla de clientes -->
         <div class="table-responsive">  
-            <table class="table table-hover table-striped table-bordered">
+            <table class="table table-hover table-striped table-bordered" id="tablaClientes">
                 <thead class="table-primary">
                     <tr>
-                        <th scope="col"><i class="bi bi-file-text me-2"></i>FOLIO</th>
+                        <th scope="col"><i class="bi bi-file-text me-2"></i>Folio</th>
                         <th scope="col"><i class="bi bi-person-vcard me-2"></i>Nombre</th>
                         <th scope="col"><i class="bi bi-person-vcard me-2"></i>Apellido</th>
                         <th scope="col"><i class="bi bi-telephone-fill me-2"></i>Teléfono</th>
@@ -44,7 +44,7 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
                                 <form action="#" method="POST" style="display:inline;" onsubmit="return confirmar();">
-                                    <input type="hidden" name="id" value="<?= $dato->id_usu ?>">
+                                    <input type="hidden" name="id" value="<?= $dato->id_cliente ?>">
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <i class="bi bi-trash"></i>
                                     </button>
@@ -59,6 +59,20 @@
         </div>
     </div>
 </main>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaClientes').DataTable({
+            "pageLength": 5,
+            "lengthMenu": [5, 10, 25, 50, 100],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+            }
+        });
+    });
+</script>
 
 <?php include("../modales/modalClientes.php"); ?>
 <?php include("../plantillas/footer.php"); ?>
