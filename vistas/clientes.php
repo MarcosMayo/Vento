@@ -51,7 +51,7 @@
                                 </form>
                             </td>
                         </tr>
-                        <?php include("../modales/modaleditarclientes.php"); ?>
+                        <?php include("../modales/modalEditarclient.php"); ?>
 
                     <?php } ?>
                 </tbody>
