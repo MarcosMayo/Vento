@@ -17,7 +17,12 @@
 
         <!-- Tabla de usuarios -->
         <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered" id="tablaUsuarios">
+            <!-- Formulario de búsqueda -->
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
+        <button class="btn btn-primary mt-2" onclick="loadData()">Buscar</button>
+
+
+            <table class="table table-hover table-striped table-bordered">
                 <thead class="table-primary">
                     <tr>
                         <th scope="col"><i class="bi bi-person-vcard me-2"></i>Nombre</th>
@@ -26,50 +31,65 @@
                         <th scope="col" class="text-center"><i class="bi bi-gear-fill me-2"></i>Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    $sql = $conexion->query("SELECT * FROM usuarios");
-                    while ($dato = $sql->fetch_object()) { ?>
-                        <tr>
-                            <td><?php echo $dato->nombre; ?></td>
-                            <td><?php echo $dato->id_rol; ?></td>
-                            <td><?php echo $dato->contraseña; ?></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal<?= $dato->id_usu ?>">
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                                <form action="../crud/eliminarusuario.php" method="POST" style="display:inline;" onsubmit="return confirmar();">
-                                    <input type="hidden" name="id" value="<?= $dato->id_usu ?>">
-                                    <button type="submit" class="btn btn-sm btn-danger">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <?php include("../modales/modaleditarusuarios.php"); ?>
+                <tbody id="tablaUsuarios">
+                     <!-- Los resultados se mostrarán aquí -->
 
-                    <?php } ?>
+                    
                 </tbody>
             </table>
+            
         </div>
+
+        <!-- Paginación -->
+<nav>
+    <ul class="pagination justify-content-center" id="paginacionUsuarios">
+        <!-- Botones generados por JS -->
+    </ul>
+</nav>
+
+<!-- Modal para editar usuario, único para cada usuario -->
+<div class="modal fade" id="editarUsuarioModal<?= $dato->id_usu ?>" tabindex="-1" aria-labelledby="editarUsuarioModalLabel<?= $dato->id_usu ?>" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editarUsuarioModalLabel<?= $dato->id_usu ?>">Editar usuario</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario para editar usuario -->
+                <form action="../crud/editarusuario.php" method="POST">
+                    <input type="hidden" name="id" value="<?= $dato->id_usu ?>"> <!-- Campo oculto para el ID -->
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" name="nombre" value="<?= $dato->nombre ?>" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="rol" class="form-label">Rol</label>
+                        <input type="text" class="form-control" name="rol" value="<?= $dato->id_rol ?>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contraseña" class="form-label">Contraseña</label>
+                        <input type="text" class="form-control" name="contraseña" value="<?= $dato->contraseña ?>" required>
+                    </div>
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
     </div>
 </main>
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#tablaUsuarios').DataTable({
-            "pageLength": 5,
-            "lengthMenu": [5, 10, 25, 50, 100],
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
-            }
-        });
-    });
-</script>
+<script src="../js/modales.js"></script>
 
 <?php include("../modales/modalUsuario.php"); ?>
 <?php include("../plantillas/footer.php"); ?>
