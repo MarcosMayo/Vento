@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formCliente" action="../crud/guardarcliente.php" method="POST">
+                <form id="formAgregarCliente" >
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre</label>
@@ -15,11 +15,11 @@
                         </div>
                         <div class="col-md-6">
                             <label for="apellidos" class="form-label">Apellido Paterno</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido_p" required>
+                            <input type="text" class="form-control" id="apellido_p" name="apellido_p" required>
                         </div>
                         <div class="col-md-6">
                             <label for="apellidos" class="form-label">Apellido Materno</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido_m" required>
+                            <input type="text" class="form-control" id="apellido_m" name="apellido_m" required>
                         </div>
                         <div class="col-md-6">
                             <label for="telefono" class="form-label">Número telefónico</label>
@@ -36,7 +36,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" id="confirmarDatos">Guardar</button>
+                        <button type="submit" class="btn btn-success">Guardar</button>
                     </div>
                 </form>
             </div>
