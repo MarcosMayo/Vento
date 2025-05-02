@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Consulta SQL para actualizar el usuario
     $query = "UPDATE usuarios SET nombre = ?, id_rol = ?, contraseña = ? WHERE id_usu = ?";
     $stmt = $conexion->prepare($query);
-    $stmt->bind_param("sssi", $nombre, $rol, $contraseña_hash, $id);
+    $stmt->bind_param("sisi", $nombre, $rol, $contraseña_hash, $id);
 
     if ($stmt->execute()) {
         // Redirigir a la lista de usuarios después de la actualización

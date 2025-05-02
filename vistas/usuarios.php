@@ -3,6 +3,7 @@
 <?php include("../plantillas/menuu.php"); ?>
 
 <main class="p-3">
+
     <div class="container-fluid">
 
         <!-- Título principal -->
@@ -19,8 +20,6 @@
         <div class="table-responsive">
             <!-- Formulario de búsqueda -->
             <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
-            <button class="btn btn-primary mt-2" onclick="loadData()">Buscar</button>
-
 
             <table class="table table-hover table-striped table-bordered">
                 <thead class="table-primary">
@@ -33,8 +32,6 @@
                 </thead>
                 <tbody id="tablaUsuarios">
                     <!-- Los resultados se mostrarán aquí -->
-
-
                 </tbody>
             </table>
             <!-- Paginación -->
@@ -43,10 +40,9 @@
                     <!-- Botones generados por JS -->
                 </ul>
             </nav>
+        </div> <!-- Termina Tabla de usuarios -->
 
-        </div>
-
-
+        <!--Modal para editar usuarios -->
         <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -63,7 +59,12 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Rol</label>
-                                <input type="text" class="form-control" name="rol" id="editarRol" required>
+                                <select class="form-control" name="rol" id="editarRol" required>
+                                    <option value="1">Administrador</option>
+                                    <option value="2">Empleado</option>
+                                    <option value="3">Cliente</option>
+                                    <!-- agrega más según tus roles -->
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Contraseña</label>
@@ -78,12 +79,8 @@
             </div>
         </div>
 
-
-
-
-
-
     </div>
+
 </main>
 
 <script src="../js/modales.js"></script>

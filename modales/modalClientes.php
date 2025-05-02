@@ -10,10 +10,6 @@
                 <form id="formCliente" action="../crud/guardarcliente.php" method="POST">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="folio" class="form-label">Folio</label>
-                            <input type="number" class="form-control" id="folio" name="folio" required>
-                        </div>
-                        <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required>
                         </div>
