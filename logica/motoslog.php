@@ -1,47 +1,48 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 include("conexion.php");
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+$search = isset($_GET['search']) ? $conexion->real_escape_string($_GET['search']) : '';
 
 $offset = ($page - 1) * $limit;
 
-$where = "";
-$params = [];
+$where = $search ? "WHERE motocicletas.marca LIKE '%$search%' OR motocicletas.modelo LIKE '%$search%' OR clientes.nombre LIKE '%$search%'" : "";
 
-if (!empty($search)) {
-    $where = "WHERE marca LIKE ? OR modelo LIKE ?";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
-}
-
-// Obtener total
-$totalQuery = "SELECT COUNT(*) AS total FROM motocicletas $where";
-$stmt = $conn->prepare($totalQuery);
-if ($params) $stmt->bind_param(str_repeat('s', count($params)), ...$params);
-$stmt->execute();
-$result = $stmt->get_result();
-$total = $result->fetch_assoc()['total'];
+// Total de registros
+$totalSql = "SELECT COUNT(*) as total 
+             FROM motocicletas 
+             JOIN clientes ON motocicletas.id_cliente = clientes.id_cliente 
+             $where";
+$totalResult = $conexion->query($totalSql);
+$totalRow = $totalResult->fetch_assoc();
+$total = $totalRow['total'];
 $totalPages = ceil($total / $limit);
 
-// Obtener registros paginados
-$sql = "SELECT * FROM motocicletas $where  LIMIT ? OFFSET ?";
-$stmt = $conn->prepare($sql);
-$bindTypes = str_repeat('s', count($params)) . "ii";
-$params[] = $limit;
-$params[] = $offset;
-$stmt->bind_param($bindTypes, ...$params);
-$stmt->execute();
-$result = $stmt->get_result();
+// Consulta paginada
+$sql = "SELECT motocicletas.id_motocicleta, motocicletas.marca, motocicletas.modelo, motocicletas.anio, 
+               motocicletas.numero_serie, motocicletas.fecha_registro, clientes.nombre AS cliente 
+        FROM motocicletas 
+        JOIN clientes ON motocicletas.id_cliente = clientes.id_cliente 
+        $where 
+        ORDER BY motocicletas.id_motocicleta DESC 
+        LIMIT $limit OFFSET $offset";
 
-$motocicletas = [];
+$result = $conexion->query($sql);
+if (!$result) {
+    die("Error en la consulta SQL: " . $conexion->error);
+}
+
+
+$motos = [];
 while ($row = $result->fetch_assoc()) {
-    $motocicletas[] = $row;
+    $motos[] = $row;
 }
 
 echo json_encode([
-    'motocicletas' => $motocicletas,
+    'motos' => $motos,
     'totalPages' => $totalPages
 ]);
 ?>

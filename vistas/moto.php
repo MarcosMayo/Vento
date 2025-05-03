@@ -19,7 +19,7 @@
 
         <!-- Tabla de motos -->
         <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered" id="tablaMotos">
+            <table class="table table-hover table-striped table-bordered">
                 <thead class="table-primary">
                     <tr>
                         <th scope="col"><i class="bi bi-bicycle me-2"></i>Cliente</th>
@@ -35,7 +35,7 @@
 
             </table>
             <nav>
-                <ul class="pagination justify-content-center" id="paginacionMotos"></ul>
+                <ul class="pagination" id="paginacionMotos"></ul>
             </nav>
         </div>
 
