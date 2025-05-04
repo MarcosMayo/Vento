@@ -1,45 +1,44 @@
-document.getElementById('formAgregarCliente').addEventListener('submit', async function(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('formAgregarCliente');
 
-    const form = e.target;
-    const formData = new FormData(form);
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    try {
-        const response = await fetch('../crud/guardarcliente.php', {
-            method: 'POST',
-            body: formData
-        });
+        const formData = new FormData(form);
 
-        const text = await response.text();
-
-        if (response.ok && text.includes('Cliente guardado exitosamente')) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Cliente registrado',
-                text: text,
-                confirmButtonText: 'Aceptar'
-            }).then(() => {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('agregarClienteModal'));
-                modal.hide();
-                form.reset();
-                location.reload(); // recarga tabla o lista actual
+        try {
+            const response = await fetch('../crud/guardarcliente.php', {
+                method: 'POST',
+                body: formData
             });
-        } else {
+
+            const data = await response.json();
+
+            if (response.ok && data.status === 'ok') {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Cliente guardado!',
+                    text: `${data.mensaje} (Folio: ${data.folio})`,
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    // Cerrar modal, limpiar formulario y recargar tabla
+                    bootstrap.Modal.getInstance(document.getElementById('agregarClienteModal')).hide();
+                    form.reset();
+                    cargarClientes(); // Asegúrate que esta función exista
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al guardar',
+                    text: data.mensaje || 'Ocurrió un error desconocido'
+                });
+            }
+        } catch (error) {
             Swal.fire({
                 icon: 'error',
-                title: 'Error',
-                text: text,
-                confirmButtonText: 'Cerrar'
+                title: 'Error de red',
+                text: 'No se pudo conectar con el servidor.'
             });
         }
-
-    } catch (error) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error de red',
-            text: 'No se pudo conectar con el servidor.',
-            confirmButtonText: 'Cerrar'
-        });
-    }
+    });
 });
-
