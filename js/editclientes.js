@@ -1,42 +1,39 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const formEditar = document.getElementById("formEditarCliente");
 
-document.getElementById('btnConfirmarEdicion').addEventListener('click', async () => {
-    const form = document.getElementById('formEditarCliente');
-    const formData = new FormData(form);
+    formEditar.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    try {
-        const response = await fetch('../crud/editarcliente.php', {
-            method: 'POST',
+        const formData = new FormData(formEditar);
+
+        const response = await fetch("../crud/editarcliente.php", {
+            method: "POST",
             body: formData
         });
 
-        const text = await response.text();
+        const result = await response.json(); // Cambiamos a .json() para trabajar con la respuesta en formato JSON
 
-        if (response.ok && text.includes("exitosamente")) {
-            // Mostrar alerta de Bootstrap
-            const alerta = document.createElement('div');
-            alerta.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-            alerta.style.zIndex = '1055';
-            alerta.role = 'alert';
-            alerta.innerHTML = `
-                Cliente actualizado exitosamente.
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            `;
-            document.body.appendChild(alerta);
+        if (result.success) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Cliente actualizado!',
+                text: result.message,  // Usamos el mensaje del JSON
+                timer: 2000,
+                showConfirmButton: false
+            });
 
-            // Cerrar modal
-            const modal = bootstrap.Modal.getInstance(document.getElementById('editarClienteModal'));
+            // Cierra el modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById("editarClienteModal"));
             modal.hide();
 
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = '../vistas/clientes.php'; // Cambia según tu vista
-            }, 2000);
+            // Actualiza la tabla de clientes
+            cargarClientes(); // <-- Función que ya usas para llenar la tabla dinámicamente
         } else {
-            alert('Error: ' + text);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message  // Mostramos el mensaje de error si algo falla
+            });
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Ocurrió un error al actualizar el cliente.');
-    }
+    });
 });
-

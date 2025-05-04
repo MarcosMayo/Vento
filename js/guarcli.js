@@ -19,13 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     icon: 'success',
                     title: '¡Cliente guardado!',
                     text: `${data.mensaje} (Folio: ${data.folio})`,
-                    confirmButtonText: 'Aceptar'
-                }).then(() => {
-                    // Cerrar modal, limpiar formulario y recargar tabla
-                    bootstrap.Modal.getInstance(document.getElementById('agregarClienteModal')).hide();
-                    form.reset();
-                    cargarClientes(); // Asegúrate que esta función exista
+                    timer: 2000,
+                    showConfirmButton: false
                 });
+
+                // Cerrar modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('agregarClienteModal'));
+                modal.hide();
+
+                // Limpiar formulario
+                form.reset();
+
+                // Recargar tabla
+                cargarClientes();
+
             } else {
                 Swal.fire({
                     icon: 'error',

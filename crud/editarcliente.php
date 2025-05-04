@@ -1,6 +1,8 @@
 <?php
 include("../logica/conexion.php");
 
+header('Content-Type: application/json'); // Asegúrate de enviar el encabezado como JSON
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_cliente = $_POST['id_cliente'];
     $nombre = $_POST['nombre'];
@@ -10,19 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $direccion = $_POST['direccion'];
 
-    // Preparamos la consulta para actualizar los datos del cliente (sin modificar el folio)
+    // Preparamos la consulta para actualizar los datos del cliente
     $stmt = $conexion->prepare("UPDATE clientes SET nombre = ?, apellido_paterno = ?, apellido_materno = ?, telefono = ?, correo = ?, direccion = ? WHERE id_cliente = ?");
     $stmt->bind_param('ssssssi', $nombre, $apellido_p, $apellido_m, $telefono, $email, $direccion, $id_cliente);
 
+    // Ejecutamos la consulta y verificamos el resultado
     if ($stmt->execute()) {
-        echo "Cliente actualizado exitosamente.";
+        echo json_encode(["success" => true, "message" => "Cliente actualizado exitosamente."]);
     } else {
-        echo "Error al actualizar cliente: " . $stmt->error;
+        echo json_encode(["success" => false, "message" => "Error al actualizar el cliente: " . $stmt->error]);
     }
 
     $stmt->close();
     $conexion->close();
 } else {
-    echo "Método de solicitud no permitido.";
+    echo json_encode(["success" => false, "message" => "Método de solicitud no permitido."]);
 }
 ?>

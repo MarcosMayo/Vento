@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $update = $conexion->prepare("UPDATE clientes SET folio = ? WHERE id_cliente = ?");
     $update->bind_param("si", $folio, $id_cliente);
 
-    if ($update->execute()) {
+   if ($update->execute()) {
         echo json_encode(['status' => 'ok', 'mensaje' => 'Cliente guardado exitosamente', 'folio' => $folio]);
     } else {
-        echo json_encode(['status' => 'error', 'mensaje' => 'Error al generar folio: ' . $update->error]);
+       echo json_encode(['status' => 'error', 'mensaje' => 'Error al generar folio: ' . $update->error]);
     }
 
     $stmt->close();

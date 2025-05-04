@@ -1,12 +1,13 @@
-function abrirModalEditar(id, nombre, rol, contraseña) {
+function abrirModalEditar(id, nombre, idRol, contraseña) {
     document.getElementById('editarId').value = id;
     document.getElementById('editarNombre').value = nombre;
-    document.getElementById('editarRol').value = rol;
+    document.getElementById('editarRol').value = idRol; // ahora sí seleccionará el valor correcto
     document.getElementById('editarContraseña').value = contraseña;
 
     const modal = new bootstrap.Modal(document.getElementById('editarUsuarioModal'));
     modal.show();
 }
+
     
     
     const tablaBody = document.getElementById('tablaUsuarios');
@@ -63,7 +64,7 @@ function abrirModalEditar(id, nombre, rol, contraseña) {
                     <td>${usuario.nombre_rol}</td>
                     <td>${usuario.contraseña}</td>
                     <td class="text-center">
-                        <button class="btn btn-sm btn-warning" onclick="abrirModalEditar(${usuario.id_usu}, '${usuario.nombre}', '${usuario.nombre_rol}', '${usuario.contraseña}')">
+                    <button class="btn btn-sm btn-warning" onclick="abrirModalEditar(${usuario.id_usu}, '${usuario.nombre}', ${usuario.id_rol}, '${usuario.contraseña}')">
                         <i class="bi bi-pencil-square"></i>
                         </button>
 

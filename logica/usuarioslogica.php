@@ -15,12 +15,13 @@ $totalRow = $totalResult->fetch_assoc();
 $total = $totalRow['total'];
 $totalPages = ceil($total / $limit);
 
-$sql = "SELECT usuarios.id_usu, usuarios.nombre, usuarios.contraseña, roles.nombre AS nombre_rol 
+$sql = "SELECT usuarios.id_usu, usuarios.nombre, usuarios.contraseña, usuarios.id_rol, roles.nombre AS nombre_rol 
         FROM usuarios 
         JOIN roles ON usuarios.id_rol = roles.id_rol 
         $where 
         ORDER BY usuarios.id_usu DESC 
         LIMIT $limit OFFSET $offset";
+
 
 $result = $conexion->query($sql);
 
