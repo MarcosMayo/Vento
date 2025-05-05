@@ -161,6 +161,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/elicli.js"></script>
 <script src="../js/guarcli.js"></script>
 <script src="../js/editclientes.js"></script>
 <script src="../js/pagclientes.js"></script>

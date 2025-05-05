@@ -11,6 +11,8 @@ function abrirModalEditarCliente(id, nombre, apellido_p, apellido_m, telefono, e
     modal.show();
 }
 
+
+
 const tablaBodyClientes = document.getElementById('tablaClientes');
 const paginacionClientes = document.getElementById('paginacionClientes');
 const searchInputClientes = document.getElementById('searchInputClientes');
@@ -53,6 +55,7 @@ function renderizarPaginacionClientes(totalPages, current) {
     `;
 }
 
+
 async function cargarClientes(page = 1, search = '') {
     const response = await fetch(`../logica/clientelog.php?page=${page}&limit=${limitClientes}&search=${search}`);
     const data = await response.json();
@@ -73,12 +76,10 @@ async function cargarClientes(page = 1, search = '') {
                         <i class="bi bi-pencil-square"></i>
                     </button>
 
-                    <form action="../crud/eliminarcliente.php" method="POST" style="display:inline;" onsubmit="return confirmar();">
-                        <input type="hidden" name="id_cliente" value="${cliente.id_cliente}">
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
+                    <button class="btn btn-sm btn-danger" onclick="eliminarCliente(${cliente.id_cliente})">
+                   <i class="bi bi-trash"></i>
+                   </button>
+
                 </td>
             </tr>
         `;
@@ -96,3 +97,4 @@ searchInputClientes.addEventListener('input', () => {
 
 // Cargar al inicio
 cargarClientes();
+
