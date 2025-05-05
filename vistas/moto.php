@@ -113,7 +113,7 @@
         </div>
 </main>
 
-
+<script src="../js/guarmo.js"></script>
 <script src="../js/motos.js"></script>
 <script src="../js/buscarc.js"></script>
 <?php include("../plantillas/footer.php"); ?>
