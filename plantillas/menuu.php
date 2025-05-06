@@ -44,6 +44,12 @@
                             <i class="bi bi-bicycle"></i> Motos
                         </a>
                     </li>
+
+                    <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
+                        <a href="../vistas/empleados.php" class="sidebar-link">
+                            <i class="bi bi-person"></i> Empleados
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Refacciones</span></a></li>
