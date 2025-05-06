@@ -2,7 +2,7 @@
 <?php include("../plantillas/header.php"); ?>
 <?php include("../plantillas/menuu.php"); ?>
 <main class="p-3">
-    <id class="container-fluid">
+    <div class="container-fluid">
 
         <!-- Título principal -->
         <h2 class="text-center mb-4">Motos</h2>
@@ -113,7 +113,7 @@
         </div>
 </main>
 
-<script src="../js/guarmo.js"></script>
+
 <script src="../js/motos.js"></script>
-<script src="../js/buscarc.js"></script>
+
 <?php include("../plantillas/footer.php"); ?>
