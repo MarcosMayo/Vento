@@ -5,7 +5,7 @@
     <div class="container-fluid">
 
         <!-- Título principal -->
-        <h2 class="text-center mb-4">Clientes</h2>
+        <h2 class="text-center mb-4">Clientess</h2>
 
         <!-- Botón para añadir nuevo cliente -->
         <div class="mb-3">
