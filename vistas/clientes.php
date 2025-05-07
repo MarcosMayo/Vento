@@ -143,13 +143,13 @@
                         <!-- Dirección -->
                         <div class="col-md-6">
                             <label for="direccionEdit" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="editarDireccionCliente" name="direccion" required>
+                            <input type="text" class="form-control" id= "editarDireccionCliente" name="direccion" required>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" id="btnConfirmarEdicion">Confirmar edición</button>
+                        <button type="submit" class="btn btn-primary">Confirmar edición</button>
                     </div>
                 </form>
             </div>

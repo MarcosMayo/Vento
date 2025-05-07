@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include("../logica/conexion.php");
 header('Content-Type: application/json');
 
@@ -16,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'Faltan datos para agregar la moto.']);
         exit;
     }
+     // Log para depuración
+     error_log("Datos recibidos: $id_cliente, $marca, $modelo, $anio, $numero_serie, $fecha_ingreso");
 
     // Insertar la motocicleta en la base de datos
     $stmt = $conexion->prepare("INSERT INTO motocicletas (id_cliente, marca, modelo, anio, numero_serie, fecha_ingreso) VALUES (?, ?, ?, ?, ?, ?)");
@@ -24,6 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Motocicleta agregada correctamente.']);
     } else {
+        error_log("Error al agregar la motocicleta: " . $stmt->error);
         echo json_encode(['success' => false, 'message' => 'Error al agregar la motocicleta.']);
     }
 

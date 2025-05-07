@@ -1,3 +1,10 @@
+
+function abrirModalClientes() {
+    const modal = new bootstrap.Modal(document.getElementById('modalClientes'));
+    modal.show();
+}
+
+
 function abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fecha_ingreso) {
     document.getElementById('editarIdMoto').value = id;
     document.getElementById('editarClienteMoto').value = cliente;
@@ -10,46 +17,6 @@ function abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fe
     const modal = new bootstrap.Modal(document.getElementById('editarMotoModal'));
     modal.show();
 }
-async function buscarCliente() {
-    const nombre = document.getElementById('busquedaCliente').value;
-    const response = await fetch(`../logica/buscarcliente.php?nombre=${encodeURIComponent(nombre)}`);
-    const data = await response.json();
-
-    const contenedor = document.getElementById('tablaResultadosClientes');
-    contenedor.innerHTML = `
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre completo</th>
-                    <th>Teléfono</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${data.map(cliente => `
-                    <tr>
-                        <td>${cliente.nombre} ${cliente.apellido_paterno} ${cliente.apellido_materno}</td>
-                        <td>${cliente.telefono}</td>
-                        <td>
-                            <button class="btn btn-success btn-sm" onclick="seleccionarCliente(${cliente.id}, '${cliente.nombre} ${cliente.apellido_paterno} ${cliente.apellido_materno}')">
-                                Seleccionar
-                            </button>
-                        </td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
-}
-function seleccionarCliente(id, nombreCompleto) {
-    document.getElementById('id_cliente').value = id;
-    document.getElementById('nombre_cliente').value = nombreCompleto;
-
-    // Cierra el modal de clientes
-    const modalClientes = bootstrap.Modal.getInstance(document.getElementById('modalClientes'));
-    modalClientes.hide();
-}
-
 
 
 const tablaBodyMotos = document.getElementById('tablaBodyMotos');
@@ -113,7 +80,7 @@ async function cargarMotos(page = 1, search = '') {
                         <i class="bi bi-pencil-square"></i>
                     </button>
 
-                    <form action="../crud/eliminarmoto.php" method="POST" style="display:inline;" onsubmit="return confirmar();">
+                    <form action="../crud/eliminarmoto.php" method="POST" style="display:inline;";">
                         <input type="hidden" name="id_moto" value="${moto.id_moto}">
                         <button type="submit" class="btn btn-sm btn-danger">
                             <i class="bi bi-trash"></i>
@@ -125,7 +92,7 @@ async function cargarMotos(page = 1, search = '') {
     });
 
     // Renderizar paginación
-    renderizarPaginacionMotos(data.totalPages, page);
+    renderizarPaginacionMotos(data.totalPages, page);   
 }
 
 // Buscar mientras se escribe
@@ -133,10 +100,7 @@ searchInputMotos.addEventListener('input', () => {
     currentPageMotos = 1;
     cargarMotos(currentPageMotos, searchInputMotos.value);
 });
-function abrirModalClientes() {
-    const modal = new bootstrap.Modal(document.getElementById('modalClientes'));
-    modal.show();
-}
+
 
 
 // Cargar al inicio

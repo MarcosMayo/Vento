@@ -49,15 +49,14 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            <input type="hidden" name="id_cliente" id="id_cliente">
+                            
 
-                            <div class="mb-3">
-                                <label for="nombre_cliente" class="form-label">Cliente</label>
-                                <div class="input-group">
-                                    <input type="text" id="nombre_cliente" class="form-control" readonly>
-                                    <button type="button" class="btn btn-outline-primary" onclick="abrirModalClientes()">Buscar cliente</button>
-                                </div>
+                            <div class="mb-3" id="buscador-representante">
+                                <input type="text" id="input-cliente" class="form-control custom-input" />
+                                <input name="id_cliente" type="hidden" id="input-id-cliente" class="form-control custom-input" />
+                                <div id="contenedor-sugerencias" class="position-absolute w-100" style="z-index: 1051;"></div>
                             </div>
+
 
                             <div class="mb-3">
                                 <label>Marca</label>
@@ -92,28 +91,29 @@
                 </div>
             </div>
         </div>
-
         <!-- Modal Buscar Cliente -->
-        <div class="modal fade" id="modalClientes" tabindex="-1" aria-labelledby="modalClientesLabel" aria-hidden="true">
+        <!--  <div class="modal fade" id="modalClientes" tabindex="-1" aria-labelledby="modalClientesLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalClientesLabel">Buscar Cliente</h5>
+                        <h5 class="modal-title">Buscar Cliente</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="busquedaCliente" class="form-control mb-3" placeholder="Buscar por nombre..." oninput="buscarCliente()">
+                        <input type="text" id="busquedaCliente" class="form-control mb-3" placeholder="Buscar por nombre o apellido...">
                         <div id="tablaResultadosClientes"></div>
                     </div>
                 </div>
             </div>
         </div>
+ -->
 
 
-        </div>
+    </div>
 </main>
-
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/guarmo.js"></script>
 <script src="../js/motos.js"></script>
-
+<script src="../js/autocompletado.js"></script>
+<!-- <script src="../js/buscarc.js"></script> -->
 <?php include("../plantillas/footer.php"); ?>
