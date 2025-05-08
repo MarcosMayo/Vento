@@ -49,7 +49,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
-                            
+
 
                             <div class="mb-3" id="buscador-representante">
                                 <input type="text" id="input-cliente" class="form-control custom-input" />
@@ -80,7 +80,7 @@
 
                             <div class="mb-3">
                                 <label>Fecha de ingreso</label>
-                                <input type="date" class="form-control" name="fecha_ingreso" required>
+                                <input type="date" class="form-control" name="fecha_registro" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -91,27 +91,67 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Buscar Cliente -->
-        <!--  <div class="modal fade" id="modalClientes" tabindex="-1" aria-labelledby="modalClientesLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+
+        <!-- Modal Editar Moto -->
+        <div class="modal fade" id="editarMotoModal" tabindex="-1" aria-labelledby="editarMotoLabel" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Buscar Cliente</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" id="busquedaCliente" class="form-control mb-3" placeholder="Buscar por nombre o apellido...">
-                        <div id="tablaResultadosClientes"></div>
-                    </div>
+                    <form id="formEditarMoto">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">Editar Motocicleta</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <!-- Campo oculto para ID de la moto -->
+                            <input type="hidden" name="id_moto" id="editar-id-motocicleta">
+
+                            <div class="mb-3">
+                                <label>Cliente</label>
+                                <input type="text" name="id_cliente" class="form-control" id="editar-cliente" disabled>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label>Marca</label>
+                                <input type="text" class="form-control" name="marca" id="editar-marca" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Modelo</label>
+                                <input type="text" class="form-control" name="modelo" id="editar-modelo" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Año</label>
+                                <input type="number" class="form-control" name="anio" id="editar-anio" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Número de serie</label>
+                                <input type="text" class="form-control" name="numero_serie" id="editar-numero-serie" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label>Fecha de ingreso</label>
+                                <input type="date" class="form-control" name="fecha_registro" id="editar-fecha-registro" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
- -->
+
 
 
     </div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/editmotos.js"></script>
 <script src="../js/guarmo.js"></script>
 <script src="../js/motos.js"></script>
 <script src="../js/autocompletado.js"></script>

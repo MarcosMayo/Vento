@@ -1,22 +1,28 @@
 
-function abrirModalClientes() {
-    const modal = new bootstrap.Modal(document.getElementById('modalClientes'));
-    modal.show();
-}
-
-
-function abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fecha_ingreso) {
-    document.getElementById('editarIdMoto').value = id;
-    document.getElementById('editarClienteMoto').value = cliente;
-    document.getElementById('editarMarcaMoto').value = marca;
-    document.getElementById('editarModeloMoto').value = modelo;
-    document.getElementById('editarAnioMoto').value = anio;
-    document.getElementById('editarNumeroSerieMoto').value = numero_serie;
-    document.getElementById('editarFechaIngresoMoto').value = fecha_ingreso;
+function abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fecha_registro) {
+    document.getElementById('editar-id-motocicleta').value = id;
+    document.getElementById('editar-cliente').value = cliente;
+    document.getElementById('editar-marca').value = marca;
+    document.getElementById('editar-modelo').value = modelo;
+    document.getElementById('editar-anio').value = anio;
+    document.getElementById('editar-numero-serie').value = numero_serie;
+    document.getElementById('editar-fecha-registro').value = fecha_registro;
 
     const modal = new bootstrap.Modal(document.getElementById('editarMotoModal'));
     modal.show();
 }
+function abrirModalEditarMotoDesdeBoton(boton) {
+    const id = boton.dataset.id;
+    const cliente = boton.dataset.cliente;
+    const marca = boton.dataset.marca;
+    const modelo = boton.dataset.modelo;
+    const anio = boton.dataset.anio;
+    const numero_serie = boton.dataset.numero_serie;
+    const fecha_registro = boton.dataset.fecha_registro;
+
+    abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fecha_registro);
+}
+
 
 
 const tablaBodyMotos = document.getElementById('tablaBodyMotos');
@@ -76,9 +82,18 @@ async function cargarMotos(page = 1, search = '') {
                 <td>${moto.numero_serie}</td>
                 <td>${moto.fecha_registro}</td>
                 <td class="text-center">
-                    <button class="btn btn-sm btn-warning" onclick="abrirModalEditarMoto(${moto.id_moto}, '${moto.cliente}', '${moto.marca}', '${moto.modelo}', '${moto.anio}', '${moto.numero_serie}', '${moto.fecha_ingreso}')">
-                        <i class="bi bi-pencil-square"></i>
-                    </button>
+                    <button class="btn btn-sm btn-warning"
+    data-id="${moto.id_motocicleta}"
+    data-cliente="${moto.cliente}"
+    data-marca="${moto.marca}"
+    data-modelo="${moto.modelo}"
+    data-anio="${moto.anio}"
+    data-numero_serie="${moto.numero_serie}"
+    data-fecha_registro="${moto.fecha_registro}"
+    onclick="abrirModalEditarMotoDesdeBoton(this)">
+    <i class="bi bi-pencil-square"></i>
+</button>
+
 
                     <form action="../crud/eliminarmoto.php" method="POST" style="display:inline;";">
                         <input type="hidden" name="id_moto" value="${moto.id_moto}">
