@@ -13,8 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($id_moto > 0) {
         // Preparar la consulta de actualización
-        $stmt = $conn->prepare("UPDATE motocicletas SET marca = ?, modelo = ?, anio = ?, numero_serie = ?, fecha_registro = ? WHERE id = ?");
-        $stmt->bind_param("ssisii", $marca, $modelo, $anio, $numero_serie, $fecha_registro, $id_moto);
+        $stmt = $conexion->prepare("UPDATE motocicletas SET marca = ?, modelo = ?, anio = ?, numero_serie = ?, fecha_registro = ? WHERE id_motocicleta = ?");
+        $stmt->bind_param("ssissi", $marca, $modelo, $anio, $numero_serie, $fecha_registro, $id_moto);
 
         if ($stmt->execute()) {
             echo json_encode(["success" => true, "message" => "Motocicleta actualizada correctamente."]);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode(["success" => false, "message" => "ID de motocicleta no válido."]);
     }
 
-    $conn->close();
+    $conexion->close();
 } else {
     echo json_encode(["success" => false, "message" => "Método no permitido."]);
 }

@@ -20,11 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validar que no haya campos vacíos
     if ($id_cliente && $marca && $modelo && $anio && $numero_serie && $fecha_registro) {
-        // Convertir el año a una fecha válida (solo si tu columna `anio` es tipo DATE, como en tu tabla)
-        $anio_format = $anio . "-01-01"; // Año como fecha: "2022-01-01"
-
-        // Convertir fecha de ingreso a datetime completo (con hora 00:00:00 si no se incluye)
-        $fecha_registro .= " 00:00:00";
+       
+        
 
         // Preparar y ejecutar consulta
         $sql = "INSERT INTO motocicletas (id_cliente, marca, modelo, anio, numero_serie, fecha_registro)
@@ -32,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = mysqli_prepare($conexion, $sql);
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "isssss", $id_cliente, $marca, $modelo, $anio_format, $numero_serie, $fecha_registro);
+            mysqli_stmt_bind_param($stmt, "isssss", $id_cliente, $marca, $modelo, $anio, $numero_serie, $fecha_registro);
 
             if (mysqli_stmt_execute($stmt)) {
                 $response = [

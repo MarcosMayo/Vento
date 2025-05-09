@@ -35,9 +35,9 @@ if (!$result) {
     die("Error en la consulta SQL: " . $conexion->error);
 }
 
-
 $motos = [];
 while ($row = $result->fetch_assoc()) {
+    $row['fecha_registro'] = date('Y-m-d', strtotime($row['fecha_registro']));
     $motos[] = $row;
 }
 
@@ -45,4 +45,3 @@ echo json_encode([
     'motos' => $motos,
     'totalPages' => $totalPages
 ]);
-?>

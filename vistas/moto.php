@@ -70,7 +70,7 @@
 
                             <div class="mb-3">
                                 <label>Año</label>
-                                <input type="number" class="form-control" name="anio" required>
+                                <input type="text" class="form-control" name="anio" required>
                             </div>
 
                             <div class="mb-3">
@@ -124,7 +124,7 @@
 
                             <div class="mb-3">
                                 <label>Año</label>
-                                <input type="number" class="form-control" name="anio" id="editar-anio" required>
+                                <input type="text" class="form-control" name="anio" id="editar-anio" required>
                             </div>
 
                             <div class="mb-3">
@@ -153,6 +153,8 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/editmotos.js"></script>
 <script src="../js/guarmo.js"></script>
+<script src="../js/motos.js"></script>
+<script src="../js/elimoto.js"></script>
 <script src="../js/motos.js"></script>
 <script src="../js/autocompletado.js"></script>
 <!-- <script src="../js/buscarc.js"></script> -->

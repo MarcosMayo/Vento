@@ -27,6 +27,9 @@
                 </thead>
                 <tbody id="tablaEmpleados"></tbody>
             </table>
+            <nav>
+                <ul class="pagination" id="paginacionEmpleados"></ul>
+            </nav>
         </div>
 
         <!-- Modal Agregar Empleado -->
@@ -73,9 +76,62 @@
             </div>
         </div>
 
+        <!-- Modal Editar Empleado -->
+<div class="modal fade" id="editarEmpleadoModal" tabindex="-1" aria-labelledby="editarEmpleadoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-warning text-white">
+                <h5 class="modal-title">Editar Empleado</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarEmpleado">
+                    <input type="hidden" id="editar_id_empleado" name="id_empleado">
+                    <div class="mb-3">
+                        <label for="editar_nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editar_nombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_apellido_paterno" class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" id="editar_apellido_paterno" name="apellido_paterno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_apellido_materno" class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" id="editar_apellido_materno" name="apellido_materno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_telefono" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="editar_telefono" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_correo" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="editar_correo" name="correo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_direccion" class="form-label">Dirección</label>
+                        <textarea class="form-control" id="editar_direccion" name="direccion" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editar_id_puesto" class="form-label">Puesto</label>
+                        <select class="form-select" id="editar_id_puesto" name="id_puesto" required>
+                            <option value="">Selecciona un puesto</option>
+                            <!-- Opciones dinámicas -->
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
     </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/Empleado.js"></script>
+<script src="../js/empleado.js"></script>
 <?php include("../plantillas/footer.php"); ?>

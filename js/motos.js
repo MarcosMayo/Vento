@@ -11,18 +11,6 @@ function abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fe
     const modal = new bootstrap.Modal(document.getElementById('editarMotoModal'));
     modal.show();
 }
-function abrirModalEditarMotoDesdeBoton(boton) {
-    const id = boton.dataset.id;
-    const cliente = boton.dataset.cliente;
-    const marca = boton.dataset.marca;
-    const modelo = boton.dataset.modelo;
-    const anio = boton.dataset.anio;
-    const numero_serie = boton.dataset.numero_serie;
-    const fecha_registro = boton.dataset.fecha_registro;
-
-    abrirModalEditarMoto(id, cliente, marca, modelo, anio, numero_serie, fecha_registro);
-}
-
 
 
 const tablaBodyMotos = document.getElementById('tablaBodyMotos');
@@ -82,25 +70,23 @@ async function cargarMotos(page = 1, search = '') {
                 <td>${moto.numero_serie}</td>
                 <td>${moto.fecha_registro}</td>
                 <td class="text-center">
-                    <button class="btn btn-sm btn-warning"
-    data-id="${moto.id_motocicleta}"
-    data-cliente="${moto.cliente}"
-    data-marca="${moto.marca}"
-    data-modelo="${moto.modelo}"
-    data-anio="${moto.anio}"
-    data-numero_serie="${moto.numero_serie}"
-    data-fecha_registro="${moto.fecha_registro}"
-    onclick="abrirModalEditarMotoDesdeBoton(this)">
+                    <button 
+  class="btn btn-sm btn-warning btn-editar-moto"
+  data-id="${moto.id_motocicleta}"
+  data-cliente="${moto.cliente}"
+  data-marca="${moto.marca}"
+  data-modelo="${moto.modelo}"
+  data-anio="${moto.anio}"
+  data-numero_serie="${moto.numero_serie}"
+  data-fecha_registro="${moto.fecha_registro}">
     <i class="bi bi-pencil-square"></i>
 </button>
 
 
-                    <form action="../crud/eliminarmoto.php" method="POST" style="display:inline;";">
-                        <input type="hidden" name="id_moto" value="${moto.id_moto}">
-                        <button type="submit" class="btn btn-sm btn-danger">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
+                    <button class="btn btn-sm btn-danger" onclick="eliminarMoto(${moto.id_motocicleta})">
+    <i class="bi bi-trash"></i>
+</button>
+
                 </td>
             </tr>
         `;
@@ -120,3 +106,21 @@ searchInputMotos.addEventListener('input', () => {
 
 // Cargar al inicio
 cargarMotos();
+
+// ESCUCHA DE EVENTO PARA BOTÓN DE EDITAR
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-editar-moto')) {
+        const btn = e.target.closest('.btn-editar-moto');
+
+        document.getElementById('editar-id-motocicleta').value = btn.dataset.id;
+        document.getElementById('editar-cliente').value = btn.dataset.cliente;
+        document.getElementById('editar-marca').value = btn.dataset.marca;
+        document.getElementById('editar-modelo').value = btn.dataset.modelo;
+        document.getElementById('editar-anio').value = btn.dataset.anio;
+        document.getElementById('editar-numero-serie').value = btn.dataset.numero_serie;
+        document.getElementById('editar-fecha-registro').value = btn.dataset.fecha_registro;
+
+        const modal = new bootstrap.Modal(document.getElementById('editarMotoModal'));
+        modal.show();
+    }
+});

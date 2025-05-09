@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.hide();
 
             // Actualiza la tabla de clientes
-            cargarClientes(); // <-- Función que ya usas para llenar la tabla dinámicamente
+            cargarMotos(currentPageMotos, searchInputMotos.value); // Actualiza la tabla // <-- Función que ya usas para llenar la tabla dinámicamente
         } else {
             Swal.fire({
                 icon: 'error',
