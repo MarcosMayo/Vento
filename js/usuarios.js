@@ -68,12 +68,10 @@ function abrirModalEditar(id, nombre, idRol, contraseña) {
                         <i class="bi bi-pencil-square"></i>
                         </button>
 
-                        <form action="../crud/eliminarusuario.php" method="POST" style="display:inline;" onsubmit="return confirmar();">
-                            <input type="hidden" name="id" value="${usuario.id_usu}">
-                            <button type="submit" class="btn btn-sm btn-danger">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+                        <button class="btn btn-sm btn-danger" onclick="eliminarUsuario(${usuario.id_usu})">
+    <i class="bi bi-trash"></i>
+</button>
+
                     </td>
                 </tr>
             `;

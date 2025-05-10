@@ -141,5 +141,6 @@ verificar_rol(['Administrador', 'Empleado']); // Solo los administradores pueden
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/usuarios.js"></script>
 <script src="../js/editusu.js"></script>
+<script src="../js/eliusu.js"></script>
 <script src="../js/guarus.js"></script>
 <?php include("../plantillas/footer.php"); ?>
