@@ -49,7 +49,7 @@ async function cargarEmpleados(page = 1, search = '') {
                 <td>${emp.direccion}</td>
                 <td>${emp.puesto}</td>
                 <td class="text-center">
-                    <button class="btn btn-sm btn-warning" onclick="abrirModalEditarEmpleado(${emp.id_empleado}, '${emp.nombre}', '${emp.apellido_p}', '${emp.apellido_m}', '${emp.telefono}', '${emp.email}', '${emp.direccion}', ${emp.id_puesto})">
+                    <button class="btn btn-sm btn-warning" onclick="abrirModalEditarEmpleado(${emp.id_empleado}, '${emp.nombre}', '${emp.apellido_p}', '${emp.apellido_m}', '${emp.telefono}', '${emp.email}', '${emp.direccion}', ${emp.id_puesto},'${emp.puesto}')">
                         <i class="bi bi-pencil-square"></i>
                     </button>
                     <button class="btn btn-sm btn-danger" onclick="eliminarEmpleado(${emp.id_empleado})">
@@ -77,25 +77,8 @@ function abrirModalEditarEmpleado(id, nombre, apellidoP, apellidoM, telefono, co
     modal.show();
 }
 
-// Enviar datos modificados del formulario de edición
-document.getElementById('formEditarEmpleado').addEventListener('submit', async function(e) {
-    e.preventDefault();
 
-    const formData = new FormData(this);
-    const response = await fetch('../logica/editar_empleado.php', {
-        method: 'POST',
-        body: formData
-    });
 
-    const resultado = await response.json();
-
-    if (resultado.success) {
-        bootstrap.Modal.getInstance(document.getElementById('editarEmpleadoModal')).hide();
-        cargarEmpleados(currentPageEmpleados, searchInputEmpleados.value);
-    } else {
-        alert('Error al actualizar el empleado');
-    }
-});
 
 // Buscar mientras se escribe
 searchInputEmpleados.addEventListener('input', () => {

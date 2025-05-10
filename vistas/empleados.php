@@ -18,10 +18,12 @@
                 <thead class="table-primary">
                     <tr>
                         <th scope="col">Nombre</th>
-                        <th scope="col">Apellidos</th>
+                        <th scope="col">Apellido Paterno</th>
+                        <th scope="col">Apellido Materno</th>
                         <th scope="col">Teléfono</th>
                         <th scope="col">Correo</th>
                         <th scope="col">Dirección</th>
+                        <th scope="col">Puesto</th>
                         <th scope="col" class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -64,8 +66,16 @@
                             </div>
                             <div class="mb-3">
                                 <label for="direccion" class="form-label">Dirección</label>
-                                <textarea class="form-control" id="direccion" name="direccion" rows="2" required></textarea>
+                                <textarea class="form-control" id="direccion" name="direccion" rows="1" required></textarea>
                             </div>
+                            <div class="mb-3">
+                        <label for="editar_id_puesto" class="form-label">Puesto</label>
+                        <select class="form-select" id="editar_id_puesto" name="id_puesto" required>
+                            <option selected>Seleccione</option>
+                            <option value="1">Mecanico</option>
+                            <!-- Opciones dinámicas -->
+                        </select>
+                    </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-success">Guardar</button>
@@ -114,7 +124,8 @@
                     <div class="mb-3">
                         <label for="editar_id_puesto" class="form-label">Puesto</label>
                         <select class="form-select" id="editar_id_puesto" name="id_puesto" required>
-                            <option value="">Selecciona un puesto</option>
+                            
+                            <option value="1">Mecanico</option>
                             <!-- Opciones dinámicas -->
                         </select>
                     </div>
@@ -133,5 +144,8 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/empleado.js"></script>
+<script src="../js/guaremp.js"></script>
+<script src="../js/editemp.js"></script>
+<script src="../js/eliemp.js"></script>
+<script src="../js/empleados.js"></script>
 <?php include("../plantillas/footer.php"); ?>
