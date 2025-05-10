@@ -1,3 +1,6 @@
+<?php require '../logica/verificar_rol.php';
+verificar_rol(['Administrador', 'Empleado']); // Solo los administradores pueden ver esta vista
+?>
 <?php include("../logica/conexion.php"); ?>
 <?php include("../plantillas/header.php"); ?>
 <?php include("../plantillas/menuu.php"); ?>
@@ -136,8 +139,7 @@
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="../js/modales.js"></script>
+<script src="../js/usuarios.js"></script>
 <script src="../js/editusu.js"></script>
 <script src="../js/guarus.js"></script>
-<?php include("../modales/modalUsuario.php"); ?>
 <?php include("../plantillas/footer.php"); ?>

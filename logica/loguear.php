@@ -1,31 +1,35 @@
 <?php
-
 require 'conexion.php';
-
 session_start();
 
 $usuario = $_POST['usuario'];
 $clave = $_POST['clave'];
 
-// Consulta para obtener el hash de la contraseña almacenado en la base de datos
-$q = "SELECT * FROM usuarios WHERE nombre = '$usuario'";
+// Consulta para obtener datos del usuario con su rol
+$q = "SELECT u.*, r.nombre AS nombre_rol 
+      FROM usuarios u 
+      INNER JOIN roles r ON u.id_rol = r.id_rol
+      WHERE u.nombre = '$usuario'";
 
 $consulta = mysqli_query($conexion, $q);
-$array =  mysqli_fetch_array($consulta);
+$array = mysqli_fetch_array($consulta);
 
 // Verificar si el usuario existe
 if ($array) {
-    // Verificar si la contraseña ingresada coincide con el hash almacenado
     if (password_verify($clave, $array['contraseña'])) {
-        $_SESSION['logueado'] = $usuario;
-        $_SESSION['logueadoc'] = $clave;
-        header("location: ../vistas/index.php");
+        $_SESSION['id_usuario'] = $array['id_usu'];
+        $_SESSION['usuario'] = $array['nombre']; // Nombre de usuario
+        $_SESSION['rol'] = $array['nombre_rol']; // Rol del usuario
+
+        header("Location: ../vistas/index.php");
+        exit;
     } else {
-        echo "Contraseña incorrecta.";
-        header("location: ../vistas/login.php");
+        $_SESSION['error_login'] = 'Contraseña incorrecta';
+        header("Location: ../vistas/login.php");
+        exit;
     }
 } else {
-    echo "Usuario no encontrado.";
-    header("location: ../vistas/login.php");
+    $_SESSION['error_login'] = 'Usuario no encontrado';
+    header("Location: ../vistas/login.php");
+    exit;
 }
-?>
