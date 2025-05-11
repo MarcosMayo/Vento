@@ -50,6 +50,11 @@
                             <i class="bi bi-person"></i> Empleados
                         </a>
                     </li>
+                    <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
+                        <a href="../vistas/tipos_servicios.php" class="sidebar-link">
+                        <i class="bi bi-tools"></i> servicios
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Refacciones</span></a></li>
