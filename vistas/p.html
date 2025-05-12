@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Agregar Servicio</title>
+  <style>
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+    th, td { text-align: center; }
+  </style>
+</head>
+<body>
+
+  <h2>Agregar Nuevo Servicio</h2>
+
+  <form id="formServicio">
+    <label>Nombre del Servicio: <input type="text" name="nombre_servicio" required></label><br><br>
+
+    <label>Descripción:<br>
+      <textarea name="descripcion" required></textarea>
+    </label><br><br>
+
+    <label>Mano de Obra: $<input type="number" id="manoObra" name="mano_obra" value="0" min="0" required></label><br><br>
+
+    <h3>Refacciones</h3>
+    <table id="tablaRefacciones">
+      <thead>
+        <tr>
+          <th>Refacción</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <br>
+    <button type="button" onclick="agregarFila()">+ Agregar Refacción</button>
+
+    <hr>
+    <p>Total Refacciones: $<span id="totalRefacciones">0</span></p>
+    <p><strong>Total Servicio:</strong> $<span id="totalServicio">0</span></p>
+
+    <br>
+    <button type="submit">Guardar Servicio</button>
+  </form>
+
+  <script>
+    let refacciones = [
+      { id: 1, nombre: "Bujía", precio: 100 },
+      { id: 2, nombre: "Aceite", precio: 150 },
+      { id: 3, nombre: "Filtro", precio: 50 }
+    ];
+
+    function agregarFila() {
+      const tbody = document.querySelector('#tablaRefacciones tbody');
+      const row = document.createElement('tr');
+
+      row.innerHTML = `
+        <td>
+          <select onchange="actualizarPrecio(this)">
+            <option value="">Seleccionar</option>
+            ${refacciones.map(r => `<option value="${r.id}" data-precio="${r.precio}">${r.nombre}</option>`).join('')}
+          </select>
+        </td>
+        <td><input type="number" min="1" value="1" onchange="actualizarTotales()"></td>
+        <td><input type="number" min="0" value="0" onchange="actualizarTotales()"></td>
+        <td class="subtotal">0</td>
+        <td><button type="button" onclick="this.closest('tr').remove(); actualizarTotales();">Eliminar</button></td>
+      `;
+
+      tbody.appendChild(row);
+    }
+
+    function actualizarPrecio(select) {
+      const precio = select.options[select.selectedIndex].dataset.precio || 0;
+      const row = select.closest('tr');
+      row.querySelectorAll('input')[1].value = precio;
+      actualizarTotales();
+    }
+
+    function actualizarTotales() {
+      const tbody = document.querySelector('#tablaRefacciones tbody');
+      let totalRefacciones = 0;
+
+      tbody.querySelectorAll('tr').forEach(row => {
+        const cantidad = parseFloat(row.querySelectorAll('input')[0].value) || 0;
+        const precio = parseFloat(row.querySelectorAll('input')[1].value) || 0;
+        const subtotal = cantidad * precio;
+        row.querySelector('.subtotal').textContent = subtotal.toFixed(2);
+        totalRefacciones += subtotal;
+      });
+
+      document.getElementById('totalRefacciones').textContent = totalRefacciones.toFixed(2);
+      const manoObra = parseFloat(document.getElementById('manoObra').value) || 0;
+      const totalServicio = totalRefacciones + manoObra;
+      document.getElementById('totalServicio').textContent = totalServicio.toFixed(2);
+    }
+
+    document.getElementById('manoObra').addEventListener('input', actualizarTotales);
+
+    document.getElementById('formServicio').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Aquí puedes usar fetch o AJAX para enviar los datos al backend.
+      alert("Formulario listo para enviar. Implementa fetch/PHP aquí.");
+    });
+  </script>
+</body>
+</html>

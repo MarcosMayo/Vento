@@ -45,42 +45,59 @@ verificar_rol(['Administrador', 'Empleado']); // Solo los administradores pueden
             </nav>
         </div> <!-- Termina Tabla de usuarios -->
 
-        <!--Modal para editar usuarios -->
-        <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary text-white">
-                        <h5 class="modal-title" id="editarUsuarioModalLabel">Editar usuario</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        <!-- Modal para editar usuarios -->
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editarUsuarioModalLabel">Editar usuario</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarUsuario">
+                    <!-- ID oculto del usuario -->
+                    <input type="hidden" name="id" id="editarId">
+
+                    <!-- Nombre completo -->
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" name="nombre" id="editarNombre" required>
                     </div>
-                    <div class="modal-body">
-                    <form id="formEditarUsuario">
-                            <input type="hidden" name="id" id="editarId">
-                            <div class="mb-3">
-                                <label class="form-label">Nombre completo</label>
-                                <input type="text" class="form-control" name="nombre" id="editarNombre" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Rol</label>
-                                <select class="form-control" name="rol" id="editarRol" required>
-                                    <option value="1">Administrador</option>
-                                    <option value="2">Empleado</option>
-                                    <option value="3">Cliente</option>
-                                    <!-- agrega más según tus roles -->
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
-                                <input type="text" class="form-control" name="contraseña" id="editarContraseña" required>
-                            </div>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-success">Guardar cambios</button>
-                            </div>
-                        </form>
+
+                    <!-- Rol -->
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <select class="form-control" name="rol" id="editarRol" required>
+                            <option value="1">Administrador</option>
+                            <option value="2">Empleado</option>
+                            <option value="3">Cliente</option>
+                        </select>
                     </div>
-                </div>
+
+                    <!-- Contraseña actual -->
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña actual <span class="text-danger">*</span></label>
+                        <input type="password" class="form-control" name="contraseña_actual" id="editarContraseñaActual" required>
+                        <div class="form-text">Requerida para validar cambios de contraseña.</div>
+                    </div>
+
+                    <!-- Nueva contraseña (opcional) -->
+                    <div class="mb-3">
+                        <label class="form-label">Nueva contraseña (opcional)</label>
+                        <input type="password" class="form-control" name="contraseña" id="editarContraseña">
+                        <div class="form-text">Dejar vacío si no deseas cambiar la contraseña.</div>
+                    </div>
+
+                    <!-- Botón de guardar -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+</div>
+
 
         <!-- Modal para agregar usuario -->
 <div class="modal fade" id="agregarUsuarioModal" tabindex="-1" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
