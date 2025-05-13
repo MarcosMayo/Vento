@@ -32,6 +32,7 @@ document.getElementById('formServicio').addEventListener('submit', function (eve
     formData.append('mano_obra', manoObra);
     formData.append('descripcion', descripcion);
     formData.append('refacciones', JSON.stringify(refacciones)); // Convertimos el array de refacciones a JSON
+    
 
     // Usar fetch para enviar los datos
     fetch('../crud/guardarservicios.php', {

@@ -30,14 +30,24 @@ if (!is_array($refacciones) || count($refacciones) === 0) {
     echo json_encode(['status' => 'error', 'mensaje' => 'Las refacciones no son válidas o están vacías.']);
     exit;
 }
+$total_refacciones = 0;
+foreach ($refacciones as $ref) {
+    $cantidad = floatval($ref['cantidad']);
+    $precio = floatval($ref['precio']);
+    $subtotal = $cantidad * $precio;
+    $total_refacciones += $subtotal;
+}
+$total_servicio = $mano_obra + $total_refacciones;
+
 
 try {
     // Iniciar transacción
     $conexion->begin_transaction();
 
     // Insertar servicio
-    $stmt_servicio = $conexion->prepare("INSERT INTO servicios (nombre_servicio, mano_obra, descripcion) VALUES (?, ?, ?)");
-    $stmt_servicio->bind_param("sds", $nombre_servicio, $mano_obra, $descripcion);
+    $stmt_servicio = $conexion->prepare("INSERT INTO servicios (nombre_servicio, precio, descripcion) VALUES (?, ?, ?)");
+    $stmt_servicio->bind_param("sds", $nombre_servicio, $total_servicio, $descripcion);
+
 
     if (!$stmt_servicio->execute()) {
         throw new Exception("Error al insertar el servicio: " . $stmt_servicio->error);
@@ -46,7 +56,7 @@ try {
     $id_servicio = $stmt_servicio->insert_id;
 
     // Insertar detalle de refacciones
-    $stmt_detalle = $conexion->prepare("INSERT INTO refacciones_servicio (id_servicio, id_refaccion, cantidad) VALUES (?, ?, ?)");
+    $stmt_detalle = $conexion->prepare("INSERT INTO detalle_servicio (id_servicio, id_refaccion, cantidad) VALUES (?, ?, ?)");
 
     foreach ($refacciones as $ref) {
         $id_refaccion = intval($ref['id_refaccion']);
