@@ -21,6 +21,12 @@
                 </ul>
             </li>
             <li class="sidebar-item">
+                <a href="../vistas/ventas.php" class="sidebar-link">
+                    <i class="bi bi-cart-fill"></i>
+                    <span>Ventas</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
                 <a href="../vistas/ordenes_trabajo.php" class="sidebar-link">
                     <i class="bi bi-clipboard-check"></i>
                     <span>Ordenes de trabajo</span>
