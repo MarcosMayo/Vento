@@ -34,3 +34,5 @@ try {
     $conexion->rollback();
     echo json_encode(['status' => 'error', 'mensaje' => $e->getMessage()]);
 }
+
+
