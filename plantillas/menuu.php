@@ -52,13 +52,19 @@
                     </li>
                     <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
                         <a href="../vistas/tipos_servicios.php" class="sidebar-link">
-                        <i class="bi bi-tools"></i> servicios
+                            <i class="bi bi-tools"></i> servicios
                         </a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-box"></i><span>Refacciones</span></a></li>
-            <li class="sidebar-item"><a href="#" class="sidebar-link"><i class="bi bi-bar-chart-line"></i><span>Reportes</span></a></li>
+            <li class="sidebar-item" class="sidebar-dropdown list-unstyled collapse">
+                <a href="../vistas/refacciones.php" class="sidebar-link"><i class="bi bi-box"></i><span>Refacciones</span></a>
+
+            </li>
+            <li class="sidebar-item">
+                <a href="#" class="sidebar-link"><i class="bi bi-bar-chart-line"></i><span>Reportes</span></a>
+
+            </li>
         </ul>
         <div class="sidebar-footer">
             <a href="../logica/logout.php" class="sidebar-link"><i class="lni lni-exit"></i><span>Salir</span></a>
@@ -71,8 +77,8 @@
                 <i class="lni lni-text-align-left"></i>
             </button>
             <?php
-session_start();
-echo "Bienvenido, " . $_SESSION['usuario'] . " (" . $_SESSION['rol'] . ")";
-?>
+            session_start();
+            echo "Bienvenido, " . $_SESSION['usuario'] . " (" . $_SESSION['rol'] . ")";
+            ?>
 
         </nav>
