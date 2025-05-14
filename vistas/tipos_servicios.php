@@ -7,90 +7,85 @@
         <h2 class="text-center mb-4">Gestión de Tipos de Servicios</h2>
 
         <div class="row">
-            <!-- Columna formulario -->
-            <div class="col-lg-6 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-header bg-primary text-white">
-                        <strong>Agregar Servicio</strong>
-                    </div>
-                    <div class="card-body">
+            <div class="container mt-4">
+                <div class="row">
+                    <!-- Columna: Agregar Servicio -->
+                    <div class="col-md-6">
+                        <h4>Agregar Servicio</h4>
                         <form id="formServicio">
+                            
                             <div class="mb-3">
-                                <label class="form-label">Nombre del Servicio</label>
+                                <label>Nombre del servicio</label>
                                 <input type="text" class="form-control" name="nombre_servicio" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Mano de Obra ($)</label>
-                                <input type="number" class="form-control" name="mano_obra" id="manoObra" value="0" min="0" required>
+                                <label>Descripción</label>
+                                <textarea class="form-control" name="descripcion" rows="3" required></textarea>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Descripción</label>
-                                <textarea class="form-control" name="descripcion" rows="2" required></textarea>
+                                <label>Mano de obra ($)</label>
+                                
+                                <input type="number" class="form-control" name="mano_obra" id="manoObra" min="0" step="0.01" value="0" required>
+
                             </div>
 
-                            <hr>
-                            <h6 class="mb-3">Refacciones</h6>
-                            <div class="table-responsive mb-3" style="max-height: 200px; overflow-y: auto;">
-                                <table class="table table-sm table-bordered" id="tablaRefacciones">
-                                    <thead class="table-light text-center">
-                                        <tr>
-                                            <th>Refacción</th>
-                                            <th>Cant.</th>
-                                            <th>Precio</th>
-                                            <th>Subtotal</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-
-                            <button type="button" class="btn btn-outline-primary btn-sm mb-3" onclick="agregarFila()">+ Agregar Refacción</button>
+                            <h5>Refacciones</h5>
+                            <table class="table table-bordered" id="tablaRefacciones">
+                                <thead>
+                                    <tr>
+                                        <th>Refacción</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <button type="button" class="btn btn-secondary mb-3" onclick="agregarFila()">+ Refacción</button>
 
                             <div class="mb-3">
-                                <p><strong>Total Refacciones:</strong> $<span id="totalRefacciones">0.00</span></p>
-                                <p><strong>Total Servicio:</strong> $<span id="totalServicio">0.00</span></p>
+                                  <strong>Total Refacciones: $<span id="totalRefacciones">0.00</span></strong><br>
+                                <strong>Total: $<span id="totalServicio">0.00</span></strong>
+                                
                             </div>
 
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-success">Guardar Servicio</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Servicio</button>
                         </form>
                     </div>
-                </div>
-            </div>
 
-            <!-- Columna tabla -->
-            <div class="col-lg-6">
-                <div class="card h-100 shadow-sm">
-                    <div class=" mb-1 card-header bg-dark text-white">
-                        <strong>Servicios Registrados</strong>
-                    </div>
-                    <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <input type="text" id="searchInputServicios" class="form-control " placeholder="Buscar servicio...">
-                    </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-bordered table-hover table-sm" id="tablaServicios">
-                            <thead class="table-light text-center">
+                    <!-- Columna: Lista de Servicios -->
+                    <div class="col-md-6">
+                        
+                        <h4>Servicios Registrados</h4>
+                        <!-- Buscador -->
+<input type="text" class="form-control mb-2" placeholder="Buscar servicio..." id="searchInputServicios">
+                        <table class="table table-striped" id="tablaServicios">
+                            <thead>
                                 <tr>
+                                   
                                     <th>Nombre</th>
-                                    <th>Descripción</th>
+                                    <th>descripcion</th>
+                                    <th>Refacciones</th>
                                     <th>Total</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tablaBodyServicios">
-                                <!-- Cargar con PHP o JS -->
+                            <tbody  id="tablaBodyServicios">
+                                <!-- Servicios cargados desde el backend -->
                             </tbody>
                         </table>
+                        <nav>
+               
+<!-- Paginación -->
+<ul class="pagination justify-content-center" id="paginacionServicios"></ul>
+
+            </nav>
                     </div>
-                    <nav>
-                        <ul class="pagination justify-content-center" id="paginacionServicios">
-                            <!-- Paginación dinámica -->
-                        </ul>
-                    </nav>
                 </div>
             </div>
+
+
         </div>
     </div>
 </main>
