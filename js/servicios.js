@@ -99,7 +99,7 @@ async function cargarServicios(page = 1, search = '') {
                 <td>${servicio.refacciones}</td>
                 <td>$${parseFloat(servicio.total).toFixed(2)}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning" onclick="editarServicio(${servicio.id})"><i class="bi bi-pencil"></i></button>
+                    <button class="btn btn-sm btn-warning" onclick="abrirModalEditarServicio(${servicio.id_servicio})"><i class="bi bi-pencil"></i></button>
                     <button class="btn btn-sm btn-danger" onclick="eliminarServicio(${servicio.id})"><i class="bi bi-trash"></i></button>
                 </td>
             </tr>
@@ -115,3 +115,93 @@ searchInputServicios.addEventListener('input', () => {
 });
 
 cargarServicios(); // Cargar al inicio
+
+function agregarFilaEditar() {
+  const tbody = document.querySelector('#tablaRefaccionesEditar');
+  const fila = document.createElement('tr');
+
+  fila.innerHTML = `
+    <td><input type="text" class="form-control input-refaccion" placeholder="Refacción"></td>
+    <td><input type="number" class="form-control cantidad-refaccion" value="1" min="1"></td>
+    <td><input type="number" class="form-control precio-refaccion" value="0" min="0" step="0.01"></td>
+    <td><input type="text" class="form-control subtotal-refaccion" value="0.00" readonly></td>
+    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">X</button></td>
+  `;
+
+  tbody.appendChild(fila);
+
+  fila.querySelector('.cantidad-refaccion').addEventListener('input', recalcularTotales);
+  fila.querySelector('.precio-refaccion').addEventListener('input', recalcularTotales);
+  recalcularTotales();
+}
+
+
+async function abrirModalEditarServicio(id) {
+    try {
+        const res = await fetch(`../logica/obtener_servicio.php?id=${id}`);
+
+        if (!res.ok) {
+            throw new Error(`Error HTTP: ${res.status}`);
+        }
+
+        const data = await res.json();
+        console.log("Respuesta del servidor:", data);
+        console.log("Mano de obra:", data.servicio.mano_obra);
+
+
+        // Validar si recibimos el objeto servicio
+        if (!data.servicio) {
+            console.error('Servicio no encontrado o respuesta inválida:', data);
+            alert('No se pudo cargar la información del servicio.');
+            return;
+        }
+
+        // Rellenar los campos del modal
+        document.getElementById('idServicioEditar').value = data.servicio.id_servicio || '';
+        document.getElementById('nombreServicioEditar').value = data.servicio.nombre_servicio || '';
+        document.getElementById('descripcionEditar').value = data.servicio.descripcion || '';
+        document.getElementById('manoObraEditar').value = data.servicio.mano_obra || 0;
+
+        // Obtener el tbody correctamente
+        const tbody = document.getElementById('tablaRefaccionesEditar');
+        if (!tbody) {
+            console.error('No se encontró el cuerpo de la tabla con ID tablaRefaccionesEditar');
+            alert('Error interno: no se encontró la tabla de refacciones.');
+            return;
+        }
+
+        tbody.innerHTML = '';
+
+        // Llenar la tabla con las refacciones si existen
+        if (Array.isArray(data.refacciones)) {
+            data.refacciones.forEach(ref => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td><input type="text" class="form-control input-refaccion" value="${ref.nombre_refaccion || ''}" readonly></td>
+                    <td><input type="number" class="form-control cantidad-refaccion" value="${ref.cantidad || 0}"></td>
+                    <td><input type="text" class="form-control precio-refaccion" value="${ref.precio || 0}" readonly></td>
+                    <td><input type="text" class="form-control subtotal-refaccion" value="${ref.subtotal || 0}" readonly></td>
+                    <td><button type="button" class="btn btn-danger btn-sm" onclick="eliminarFila(this)">X</button></td>
+                `;
+                tbody.appendChild(fila);
+            });
+        } else {
+            console.warn('No se recibieron refacciones válidas:', data.refacciones);
+        }
+        // Escuchar cambios en mano de obra
+document.getElementById('manoObraEditar').addEventListener('input', recalcularTotales);
+
+// Recalcular totales al finalizar
+recalcularTotales();
+
+        // Mostrar el modal
+        const modal = new bootstrap.Modal(document.getElementById('editarServicioModal'));
+        modal.show();
+
+    } catch (error) {
+        console.error('Error al abrir modal de edición:', error);
+        alert('Ocurrió un error al obtener los datos del servicio.');
+    }
+}
+
+

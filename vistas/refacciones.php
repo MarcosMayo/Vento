@@ -15,6 +15,7 @@
         <!-- Tabla de Refacciones - Corregida -->
         <div class="table-responsive">
             <input type="text" id="searchInputRefacciones" class="form-control mb-2" placeholder="Buscar por nombre...">
+
             <table class="table table-hover table-striped table-bordered">
                 <thead class="table-primary">
                     <tr>
@@ -26,38 +27,13 @@
                     </tr>
                 </thead>
                 <tbody id="tablaRefacciones">
-                    <?php
-                    $query = "SELECT * FROM refacciones";
-                    $result = mysqli_query($conexion, $query);
 
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            echo "<tr>";
-                            echo "<td>" . $row['id_refaccion'] . "</td>";
-                            echo "<td>" . htmlspecialchars($row['nombre_refaccion']) . "</td>";
-                            echo "<td>$" . number_format($row['precio'], 2) . "</td>";
-                            echo "<td>" . $row['stock'] . "</td>";
-                            echo "<td class='text-center'>
-    <button class='btn btn-warning btn-sm btn-editar' 
-        data-id='" . $row['id_refaccion'] . "'
-        data-nombre='" . htmlspecialchars($row['nombre_refaccion']) . "'
-        data-precio='" . $row['precio'] . "'
-        data-stock='" . $row['stock'] . "'>
-        Editar  
-    </button>
-    <button class='btn btn-danger btn-sm btn-eliminar' 
-        data-id='" . $row['id_refaccion'] . "'>
-        Eliminar
-    </button>
-</td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='4' class='text-center'>No hay refacciones registradas.</td></tr>";
-                    }
-                    ?>
+
                 </tbody>
             </table>
+            <nav>
+                <ul class="pagination" id="paginacionRefacciones"></ul>
+            </nav>
         </div>
 
         <!-- Modal Agregar Refacción - Corregido -->
@@ -92,37 +68,38 @@
             </div>
         </div>
         <!-- Modal Editar Refacción -->
-        <div class="modal fade" id="editarRefaccionModal" tabindex="-1">
+        <div class="modal fade" id="editarRefaccionModal" tabindex="-1" aria-labelledby="editarRefaccionModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header bg-warning text-white">
-                        <h5 class="modal-title">Editar Refacción</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                    </div>
                     <form id="formEditarRefaccion">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editarRefaccionModalLabel">Editar Refacción</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
                         <div class="modal-body">
-                            <input type="hidden" name="id_refaccion" id="editar_id_refaccion">
+                            <input type="hidden" name="id_refaccion" id="editarIdRefaccion">
                             <div class="mb-3">
-                                <label for="editar_nombre_refaccion" class="form-label">Nombre</label>
-                                <input type="text" name="nombre_refaccion" id="editar_nombre_refaccion" class="form-control" required>
+                                <label for="editarNombreRefaccion" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="editarNombreRefaccion" name="nombre" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editar_precio" class="form-label">Precio ($)</label>
-                                <input type="number" name="precio" step="0.01" min="0.01" id="editar_precio" class="form-control" required>
+                                <label for="editarPrecioRefaccion" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="editarPrecioRefaccion" name="precio" step="0.01" required>
                             </div>
                             <div class="mb-3">
-                                <label for="editar_stock" class="form-label">Stock</label>
-                                <input type="number" name="stock" min="0" id="editar_stock" class="form-control" required>
+                                <label for="editarStockRefaccion" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="editarStockRefaccion" name="stock" required>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-warning">Actualizar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
 
 
     </div>

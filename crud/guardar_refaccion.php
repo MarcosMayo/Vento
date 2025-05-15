@@ -1,84 +1,25 @@
 <?php
-// Configuración de headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
 include("../logica/conexion.php");
 
-// Verificar conexión a BD
-if (!$conexion) {
-    http_response_code(500);
-    echo json_encode([
-        'status' => 'error',
-        'mensaje' => 'Error de conexión a la base de datos',
-        'detalle' => mysqli_connect_error()
-    ]);
-    exit;
+if ($conexion->connect_error) {
+    die(json_encode(['success' => false, 'message' => 'Error de conexión: ' . $conexion->connect_error]));
 }
 
-// Solo aceptar POST
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode([
-        'status' => 'error', 
-        'mensaje' => 'Método no permitido'
-    ]);
-    exit;
-}
-
-// Obtener datos
-$nombre = mysqli_real_escape_string($conexion, $_POST['nombre_refaccion'] ?? '');
+// Validar y escapar datos
+$nombre = $conexion->real_escape_string($_POST['nombre_refaccion'] ?? '');
 $precio = floatval($_POST['precio'] ?? 0);
-$stock = intval($_POST['stock'] ?? -1); // -1 para detectar si no se envió o si es inválido
+$stock = intval($_POST['stock'] ?? 0);
 
-// Validaciones
-$errores = [];
-if (empty($nombre)) $errores[] = 'El nombre es requerido';
-if ($precio <= 0) $errores[] = 'El precio debe ser mayor a 0';
-if ($stock < 0) $errores[] = 'El stock debe ser un número entero mayor o igual a 0';
-
-if (!empty($errores)) {
-    http_response_code(400);
-    echo json_encode([
-        'status' => 'error',
-        'mensaje' => 'Error de validación',
-        'errores' => $errores
-    ]);
+// Validación básica
+if (empty($nombre) || $precio <= 0 || $stock < 0) {
+    echo json_encode(['success' => false, 'message' => 'Datos inválidos']);
     exit;
 }
 
-// Insertar en BD
-$query = "INSERT INTO refacciones (nombre_refaccion, precio, stock) VALUES (?, ?, ?)";
-$stmt = mysqli_prepare($conexion, $query);
-
-if (!$stmt) {
-    http_response_code(500);
-    echo json_encode([
-        'status' => 'error',
-        'mensaje' => 'Error al preparar la consulta',
-        'detalle' => mysqli_error($conexion)
-    ]);
-    exit;
-}
-
-mysqli_stmt_bind_param($stmt, "sdi", $nombre, $precio, $stock);
-
-if (mysqli_stmt_execute($stmt)) {
-    echo json_encode([
-        'status' => 'ok',
-        'mensaje' => 'Refacción registrada correctamente',
-        'id' => mysqli_insert_id($conexion)
-    ]);
+$sql = "INSERT INTO refacciones (nombre_refaccion, precio, stock) VALUES ('$nombre', $precio, $stock)";
+if ($conexion->query($sql)) {
+    echo json_encode(['success' => true, 'message' => 'Refacción guardada correctamente']);
 } else {
-    http_response_code(500);
-    echo json_encode([
-        'status' => 'error',
-        'mensaje' => 'Error al guardar la refacción',
-        'detalle' => mysqli_stmt_error($stmt)
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Error al guardar: ' . $conexion->error]);
 }
-
-mysqli_stmt_close($stmt);
-mysqli_close($conexion);
 ?>

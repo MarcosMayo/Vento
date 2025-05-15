@@ -3,7 +3,7 @@ include("../logica/conexion.php");
 
 $page = intval($_GET['page'] ?? 1);
 $limit = intval($_GET['limit'] ?? 5);
-$search = $conn->real_escape_string($_GET['search'] ?? '');
+$search = $conexion->real_escape_string($_GET['search'] ?? '');
 
 $offset = ($page - 1) * $limit;
 

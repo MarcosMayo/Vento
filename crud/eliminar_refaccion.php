@@ -1,66 +1,22 @@
 <?php
 include("../logica/conexion.php");
 
-header('Content-Type: application/json');
-// Configuración de headers
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type");
-header('Content-Type: application/json');
-
-// Validar que sea una solicitud GET y que tenga ID
-if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !isset($_GET['id'])) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Solicitud inválida']);
-    exit;
+if ($conexion->connect_error) {
+    die(json_encode(['success' => false, 'message' => 'Error de conexión: ' . $conexion->connect_error]));
 }
 
-$id = intval($_GET['id']);
+$id = intval($_POST['id_refaccion'] ?? 0);
 
 if ($id <= 0) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'ID inválido']);
+    echo json_encode(['success' => false, 'message' => 'ID inválido']);
     exit;
 }
 
-// Verificar si la refacción existe
-$query = "SELECT id_refaccion FROM refacciones WHERE id_refaccion = ?";
-$stmt = mysqli_prepare($conexion, $query);
-mysqli_stmt_bind_param($stmt, "i", $id);
-mysqli_stmt_execute($stmt);
-mysqli_stmt_store_result($stmt);
+$sql = "DELETE FROM refacciones WHERE id_refaccion = $id";
 
-if (mysqli_stmt_num_rows($stmt) === 0) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'La refacción no existe']);
-    mysqli_stmt_close($stmt);
-    exit;
-}
-mysqli_stmt_close($stmt);
-
-// Eliminar refacción
-$query = "DELETE FROM refacciones WHERE id_refaccion = ?";
-$stmt = mysqli_prepare($conexion, $query);
-
-if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "i", $id);
-    
-    if (mysqli_stmt_execute($stmt)) {
-        echo json_encode([
-            'status' => 'ok',
-            'mensaje' => 'Refacción eliminada correctamente'
-        ]);
-    } else {
-        echo json_encode([
-            'status' => 'error',
-            'mensaje' => 'Error al eliminar la refacción: ' . mysqli_error($conexion)
-        ]);
-    }
-    
-    mysqli_stmt_close($stmt);
+if ($conexion->query($sql)) {
+    echo json_encode(['success' => true, 'message' => 'Refacción eliminada correctamente']);
 } else {
-    echo json_encode([
-        'status' => 'error',
-        'mensaje' => 'Error al preparar la consulta: ' . mysqli_error($conexion)
-    ]);
+    echo json_encode(['success' => false, 'message' => 'Error al eliminar: ' . $conexion->error]);
 }
-
-mysqli_close($conexion);
 ?>
