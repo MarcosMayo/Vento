@@ -29,11 +29,13 @@ verificar_rol(['Administrador', 'Empleado']); // Solo administradores o empleado
                 <!-- EMPLEADO -->
                 <div class="col-md-6">
                     <label for="empleado" class="form-label">Empleado asignado</label>
-                    <select id="empleado" name="empleado" class="form-select" required>
-                        <option value="">Selecciona un empleado</option>
+                    <select id="empleado" name="empleado"  style="width: 100%;"></select>
+                
+                      
                         <!-- Opciones se llenan con JS -->
-                    </select>
+                    
                 </div>
+                
 
                 <!-- FECHA -->
                 <div class="col-md-3">
