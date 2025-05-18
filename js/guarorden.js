@@ -1,52 +1,39 @@
-document.getElementById('formOrdenTrabajo').addEventListener('submit', function(e) {
+document.getElementById('formOrdenTrabajo').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const formData = new FormData(this);
-
-    // === ARMA REFACCIONES Y TOTAL ===
-    let listaRefacciones = [];
-    let filas = document.querySelectorAll('#tbodyRefacciones tr');
-
-    filas.forEach(fila => {
-        const nombreRefaccion = fila.querySelector('input[name="refaccion[]"]')?.value || '';
-        const cantidad = fila.querySelector('input[name="cantidad[]"]')?.value || '';
-        const precioUnitario = fila.querySelector('input[name="precio[]"]')?.value || '';
-
-        if (nombreRefaccion && cantidad && precioUnitario) {
-            listaRefacciones.push({
-                nombre_refaccion: nombreRefaccion,
-                cantidad: parseFloat(cantidad),
-                precio_unitario: parseFloat(precioUnitario)
-            });
-        }
-    });
-
-    // === TOTAL FINAL ===
-    const totalFinalTexto = document.getElementById('totalFinal')?.textContent.replace('$', '').trim();
-    const totalFinal = parseFloat(totalFinalTexto) || 0;
-
-    formData.append('refacciones', JSON.stringify(listaRefacciones));
-    formData.append('totalFinal', totalFinal);
-    console.log("Refacciones a enviar:", listaRefacciones);
-console.log("Total Final:", totalFinal);
+    const form = e.target;
+    const formData = new FormData(form);
+    for (let [key, value] of formData.entries()) {
+    console.log(`${key}: ${value}`);
+}
 
 
-    // === ENVÍA AL PHP ===
+for (let pair of formData.entries()) {
+    console.log(pair[0]+ ': ' + pair[1]);
+}
+  
+    
+
     fetch('../crud/guardar_orden_trabajo.php', {
         method: 'POST',
         body: formData
     })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            alert('Orden guardada correctamente');
-            location.reload();
+    .then(res => res.text())
+    .then(text => {
+        //console.log(data); // <-- para depurar
+         console.log('Respuesta cruda del servidor:', text);
+        if (data.status === 'success') { // <-- asegúrate de que coincida con el JSON que devuelve tu PHP
+             Swal.fire('Éxito', data.message, 'success');
+            form.reset();
+            document.getElementById('tbodyRefacciones').innerHTML = '';
+            actualizarTotalFinal();
         } else {
-            alert('Error al guardar la orden');
+            Swal.fire('Error', data.message || 'No se pudo guardar', 'error');
+
         }
     })
     .catch(err => {
         console.error(err);
-        alert('Error al enviar los datos.');
+        Swal.fire('Error', 'Error al enviar datos', 'error');
     });
 });

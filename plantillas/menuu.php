@@ -27,7 +27,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a href="../vistas/ordenes_trabajo.php" class="sidebar-link">
+                <a href="../vistas/orden.php" class="sidebar-link">
                     <i class="bi bi-clipboard-check"></i>
                     <span>Ordenes de trabajo</span>
                 </a>

@@ -1,53 +1,38 @@
 <?php
+include("conexion.php");
 
 header('Content-Type: application/json');
 
-// Activar errores temporalmente para debug
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-
-include("conexion.php");
-
-// Verifica si se recibió el ID correctamente
 if (!isset($_GET['id'])) {
-    echo json_encode(['error' => 'ID no proporcionado']);
+    echo json_encode(['success' => false, 'message' => 'ID no proporcionado']);
     exit;
 }
 
 $id = intval($_GET['id']);
 
-// Verifica si el servicio existe
-$servicioQuery = $conexion->query("SELECT * FROM servicios WHERE id_servicio = $id");
-if (!$servicioQuery || $servicioQuery->num_rows === 0) {
-    echo json_encode(['error' => 'Servicio no encontrado']);
+// Obtener datos del servicio
+$sql = "SELECT id_servicio, nombre_servicio, descripcion, mano_obra FROM servicios WHERE id_servicio = $id";
+$result = $conexion->query($sql);
+
+if ($result->num_rows === 0) {
+    echo json_encode(['success' => false, 'message' => 'Servicio no encontrado']);
     exit;
 }
 
-$servicio = $servicioQuery->fetch_assoc();
+$servicio = $result->fetch_assoc();
+
+// Obtener refacciones asociadas
+$refSql = "SELECT r.id_refaccion, r.nombre_refaccion, r.precio, ds.cantidad
+           FROM detalle_servicio ds
+           JOIN refacciones r ON ds.id_refaccion = r.id_refaccion
+           WHERE ds.id_servicio = $id";
+$refResult = $conexion->query($refSql);
 
 $refacciones = [];
-$result = $conexion->query("
-    SELECT r.nombre_refaccion, ds.cantidad, r.precio, (ds.cantidad * r.precio) AS subtotal
-    FROM detalle_servicio ds
-    JOIN refacciones r ON r.id_refaccion = ds.id_refaccion
-    WHERE ds.id_servicio = $id
-");
-
-if (!$result) {
-    echo json_encode(['error' => 'Error en la consulta de refacciones: ' . $conexion->error]);
-    exit;
+while ($ref = $refResult->fetch_assoc()) {
+    $refacciones[] = $ref;
 }
 
-while ($row = $result->fetch_assoc()) {
-    $refacciones[] = $row;
-}
-
-while ($row = $result->fetch_assoc()) {
-    $refacciones[] = $row;
-}
-
-echo json_encode([
-    'servicio' => $servicio,
-    'refacciones' => $refacciones
-]);
+$servicio['refacciones'] = $refacciones;
+echo json_encode(['success' => true, 'servicio' => $servicio]);
+?>

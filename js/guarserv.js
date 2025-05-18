@@ -21,10 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    let total_refacciones = 0;
+refacciones.forEach(r => {
+  total_refacciones += r.cantidad * r.precio;
+});
+
+const precio_total = mano_obra + total_refacciones;
+
+
     const datos = {
       nombre_servicio: nombre,
       descripcion: descripcion,
       mano_obra: mano_obra,
+      precio: precio_total,
       refacciones: JSON.stringify(refacciones)
     };
 

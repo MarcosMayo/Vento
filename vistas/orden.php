@@ -29,13 +29,13 @@ verificar_rol(['Administrador', 'Empleado']); // Solo administradores o empleado
                 <!-- EMPLEADO -->
                 <div class="col-md-6">
                     <label for="empleado" class="form-label">Empleado asignado</label>
-                    <select id="empleado" name="empleado"  style="width: 100%;"></select>
-                
-                      
-                        <!-- Opciones se llenan con JS -->
-                    
+                    <select id="empleado" name="empleado" style="width: 100%;"></select>
+
+
+                    <!-- Opciones se llenan con JS -->
+
                 </div>
-                
+
 
                 <!-- FECHA -->
                 <div class="col-md-3">
@@ -47,10 +47,10 @@ verificar_rol(['Administrador', 'Empleado']); // Solo administradores o empleado
                 <div class="col-md-3">
                     <label for="estatus" class="form-label">Estatus</label>
                     <select id="estatus" name="estatus" class="form-select" required>
-                        <option value="Pendiente" selected>Pendiente</option>
-                        <option value="En proceso">En proceso</option>
-                        <option value="Finalizado">Finalizado</option>
-                        <option value="Cancelado">Cancelado</option>
+                        <option value="1" selected>Pendiente</option>
+                        <option value="2">Cancelado</option>
+                        <option value="3">Terminado</option>
+                        
                     </select>
                 </div>
 
@@ -116,6 +116,7 @@ verificar_rol(['Administrador', 'Empleado']); // Solo administradores o empleado
 </main>
 
 <?php include("../plantillas/footer.php"); ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="../js/guarorden.js"></script>
 <script src="../js/busquedasorden.js"></script>
 <script src="../js/orden_trabajo.js"></script>

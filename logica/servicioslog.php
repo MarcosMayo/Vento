@@ -1,40 +1,51 @@
 <?php
 include("../logica/conexion.php");
 
-$page = intval($_GET['page'] ?? 1);
-$limit = intval($_GET['limit'] ?? 5);
-$search = $conexion->real_escape_string($_GET['search'] ?? '');
+header('Content-Type: application/json');
 
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$limit = 5;
 $offset = ($page - 1) * $limit;
+$search = isset($_GET['search']) ? $conexion->real_escape_string($_GET['search']) : '';
 
-// Consulta con refacciones concatenadas
-$sql = "
-    SELECT s.id_servicio, s.nombre_servicio , s.descripcion, s.precio AS total,
-        GROUP_CONCAT(r.nombre_refaccion SEPARATOR ', ') AS refacciones
-    FROM servicios s
-    LEFT JOIN detalle_servicio ds ON s.id_servicio = ds.id_servicio
-    LEFT JOIN refacciones r ON ds.id_refaccion = r.id_refaccion
-    WHERE s.nombre_servicio LIKE '%$search%' OR s.descripcion LIKE '%$search%'
-    GROUP BY s.id_servicio
-    ORDER BY s.id_servicio DESC
-    LIMIT $limit OFFSET $offset
-";
+// Filtro por búsqueda
+$where = $search ? "WHERE s.nombre_servicio LIKE '%$search%' OR s.descripcion LIKE '%$search%'" : '';
 
+// Obtener total
+$totalSql = "SELECT COUNT(*) as total FROM servicios s $where";
+$totalResult = $conexion->query($totalSql);
+$totalRow = $totalResult->fetch_assoc();
+$total = $totalRow['total'];
+$totalPages = ceil($total / $limit);
+
+// Consulta principal con LIMIT
+$sql = "SELECT s.id_servicio, s.nombre_servicio, s.descripcion, s.precio
+        FROM servicios s
+        $where
+        ORDER BY s.id_servicio DESC
+        LIMIT $offset, $limit";
 $result = $conexion->query($sql);
+
 $servicios = [];
 
 while ($row = $result->fetch_assoc()) {
+    $id_servicio = $row['id_servicio'];
+
+    // Obtener refacciones del servicio
+    $refSql = "SELECT r.nombre_refaccion, ds.cantidad
+               FROM detalle_servicio ds
+               JOIN refacciones r ON ds.id_refaccion = r.id_refaccion
+               WHERE ds.id_servicio = $id_servicio";
+    $refResult = $conexion->query($refSql);
+
+    $refacciones = [];
+    while ($ref = $refResult->fetch_assoc()) {
+        $refacciones[] = $ref['nombre_refaccion'] . ' x' . $ref['cantidad'];
+    }
+
+    $row['refacciones'] = implode(', ', $refacciones);
     $servicios[] = $row;
 }
-
-// Total para paginación
-$totalResult = $conexion->query("
-    SELECT COUNT(DISTINCT s.id_servicio) AS total
-    FROM servicios s
-    WHERE s.nombre_servicio LIKE '%$search%' OR s.descripcion LIKE '%$search%'
-");
-$totalRows = $totalResult->fetch_assoc()['total'];
-$totalPages = ceil($totalRows / $limit);
 
 echo json_encode([
     'servicios' => $servicios,
