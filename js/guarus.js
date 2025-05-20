@@ -4,6 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
+        const pass = form.pass.value.trim();
+        const confirmar = form.confirmar.value.trim();
+
+        if (pass !== confirmar) {
+            Swal.fire("Error", "Las contraseñas no coinciden", "error");
+            return;
+        }
+
         const formData = new FormData(form);
 
         try {
@@ -23,29 +31,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     showConfirmButton: false
                 });
 
-                // Cierra el modal
+                // Cierra el modal y limpia
                 const modal = bootstrap.Modal.getInstance(document.getElementById("agregarUsuarioModal"));
                 modal.hide();
-
-                // Limpia el formulario
                 form.reset();
 
-                // Recarga los datos de la tabla
+                // Recarga tabla
                 cargarUsuarios();
             } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: data.message
-                });
+                Swal.fire("Error", data.message, "error");
             }
         } catch (error) {
-            console.error("Error en la petición:", error);
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ocurrió un error al procesar la solicitud."
-            });
+            console.error("Error:", error);
+            Swal.fire("Error", "Ocurrió un error al procesar la solicitud.", "error");
         }
     });
 });

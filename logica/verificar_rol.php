@@ -10,8 +10,7 @@ if (!isset($_SESSION['rol'])) {
 // Función para verificar rol
 function verificar_rol($roles_permitidos = []) {
     if (!in_array($_SESSION['rol'], $roles_permitidos)) {
-        // Opcional: redirigir a una página de error o mostrar mensaje
-        echo "<h2>Acceso denegado. No tienes permisos para ver esta página.</h2>";
+        header("Location: ../vistas/sin_acceso.php");
         exit;
     }
 }
