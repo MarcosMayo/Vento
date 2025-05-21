@@ -1,5 +1,6 @@
 <?php require '../logica/verificar_rol.php';
-verificar_rol(['Administrador', 'Empleado']); ?>
+verificar_rol(['Administrador','Encargado']); // To todos pueden ver esta vista
+?>
 <?php include("../plantillas/header.php"); ?>
 <?php include("../plantillas/menuu.php"); ?>
 

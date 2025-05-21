@@ -1,5 +1,15 @@
+/* === Fuente principal === */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* === VARIABLES CSS === */
+:root {
+    --color-base: #0d6efd;        /* Azul principal */
+    --color-hover: #0b5ed7;       /* Hover o submenú activo */
+    --color-submenu: #0d6efd1a;   /* Fondo de submenús */
+    --color-text: #ffffff;        /* Texto claro */
+}
+
+/* === Estilos base === */
 body {
     font-family: 'Poppins', sans-serif;
 }
@@ -76,17 +86,34 @@ a {
 
 a.sidebar-link {
     padding: .625rem 1.625rem;
-    color: #FFF;
     position: relative;
     transition: all 0.35s;
     display: block;
     font-size: 1.25rem;
 }
 
-a.sidebar-link:hover {
-    background-color: #f9f6f630;
+/* === UNIFICADO COLOR BASE: menú claro y profesional === */
+.sidebar-link {
+    background-color: transparent;
+    color: var(--color-text);
+    transition: background-color 0.3s;
 }
 
+.sidebar-link:hover {
+    background-color: var(--color-submenu);
+    color: var(--color-text);
+}
+
+/* Menú activo o desplegado */
+.sidebar-link.active,
+.sidebar-link:focus,
+.sidebar-link.collapsed.has-dropdown[aria-expanded="true"] {
+    background-color: var(--color-base);
+    color: var(--color-text);
+    font-weight: 600;
+}
+
+/* Icono flecha de submenú */
 .sidebar-link[data-bs-toggle="collapse"]::after {
     border: solid;
     border-width: 0 .075rem .075rem 0;
@@ -105,10 +132,20 @@ a.sidebar-link:hover {
     transition: all .2s ease-out;
 }
 
-/* Screen size less than 768px */
+/* Submenús */
+.sidebar-dropdown {
+    background-color: var(--color-submenu);
+}
 
+/* Enlace activo en submenús */
+.sidebar-dropdown .sidebar-link.active {
+    background-color: var(--color-hover);
+    color: var(--color-text);
+    font-weight: bold;
+}
+
+/* Responsive */
 @media (max-width:768px) {
-
     .sidebar-toggle {
         margin-left: -264px;
     }
