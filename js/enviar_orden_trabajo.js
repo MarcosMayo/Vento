@@ -5,7 +5,7 @@ document.getElementById('formOrdenTrabajo').addEventListener('submit', function 
   const form = e.target;
   const formData = new FormData();
 
-  const id_motocicleta = document.getElementById('motocicleta_id').value;
+  const id_motocicleta = document.getElementById('motocicleta').value;
   const id_servicio = document.getElementById('servicio_id').value;
   const id_empleado = document.getElementById('empleado').value;
   const fecha = document.getElementById('fecha').value;

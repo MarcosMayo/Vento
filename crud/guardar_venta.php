@@ -1,3 +1,4 @@
+
 <?php
 ob_start();
 error_reporting(E_ALL);
@@ -44,6 +45,40 @@ if ($tipo === 'orden') {
     $total = floatval($row['total']);
     $id_cliente = intval($row['id_cliente']);
 
+    $sqlDetalle = "SELECT do.id_refaccion, do.cantidad, r.precio, r.stock
+                   FROM detalle_orden do
+                   JOIN refacciones r ON do.id_refaccion = r.id_refaccion
+                   WHERE do.id_orden = $id_orden";
+    $detalles = $conexion->query($sqlDetalle);
+    if (!$detalles) {
+        echo json_encode(['success' => false, 'message' => 'Error al validar stock: ' . $conexion->error]);
+        exit;
+    }
+
+    $detallesArray = [];
+    $agrupado = [];
+    while ($ref = $detalles->fetch_assoc()) {
+        $id_ref = intval($ref['id_refaccion']);
+        $cantidad = intval($ref['cantidad']);
+        $stock = intval($ref['stock']);
+
+        if (!isset($agrupado[$id_ref])) {
+            $agrupado[$id_ref] = ['cantidad' => 0, 'stock' => $stock];
+        }
+        $agrupado[$id_ref]['cantidad'] += $cantidad;
+        $detallesArray[] = $ref;
+    }
+
+    foreach ($agrupado as $id_ref => $data) {
+        if ($data['cantidad'] > $data['stock']) {
+            echo json_encode([
+                'success' => false,
+                'message' => "Stock insuficiente para la refacción ID $id_ref. Solo hay {$data['stock']} en existencia, pero se requieren {$data['cantidad']}."
+            ]);
+            exit;
+        }
+    }
+
     $sqlVenta = "INSERT INTO ventas (id_orden, id_cliente, fecha_venta, hora, total)
                  VALUES ($id_orden, $id_cliente, '$fecha', '$hora', $total)";
     if (!$conexion->query($sqlVenta)) {
@@ -53,21 +88,11 @@ if ($tipo === 'orden') {
 
     $id_venta = $conexion->insert_id;
 
-   $sqlDetalle = "SELECT do.id_refaccion, do.cantidad, r.precio
-               FROM detalle_orden do
-               JOIN refacciones r ON do.id_refaccion = r.id_refaccion
-               WHERE do.id_orden = $id_orden";
+    foreach ($detallesArray as $ref) {
+        $id_ref = intval($ref['id_refaccion']);
+        $cant = intval($ref['cantidad']);
+        $precio = floatval($ref['precio']);
 
-    $detalles = $conexion->query($sqlDetalle);
-    if (!$detalles) {
-        echo json_encode(['success' => false, 'message' => 'Error al obtener detalles: ' . $conexion->error]);
-        exit;
-    }
-
-    while ($ref = $detalles->fetch_assoc()) {
-        $id_ref = $ref['id_refaccion'];
-        $cant = $ref['cantidad'];
-        $precio = $ref['precio'];
         $conexion->query("INSERT INTO detalle_venta (id_venta, id_refaccion, cantidad, precio_unitario)
                           VALUES ($id_venta, $id_ref, $cant, $precio)");
     }
@@ -86,15 +111,37 @@ if ($tipo === 'orden') {
 
     $queryCliente = "SELECT id_cliente FROM clientes WHERE CONCAT(nombre, ' ', apellido_paterno) = '$clienteNombre' LIMIT 1";
     $res = $conexion->query($queryCliente);
-    if ($res && $fila = $res->fetch_assoc()) {
-        $id_cliente = $fila['id_cliente'];
-    } else {
-        $id_cliente = 38; // Público en general
-    }
+    $id_cliente = ($res && $fila = $res->fetch_assoc()) ? $fila['id_cliente'] : 38;
 
     $total = 0;
     foreach ($refacciones as $ref) {
         $total += floatval($ref['precio']) * intval($ref['cantidad']);
+    }
+
+    $agrupado = [];
+    foreach ($refacciones as $ref) {
+        $id_ref = intval($ref['id_refaccion']);
+        $cantidad = intval($ref['cantidad']);
+        if (!isset($agrupado[$id_ref])) {
+            $agrupado[$id_ref] = 0;
+        }
+        $agrupado[$id_ref] += $cantidad;
+    }
+
+    foreach ($agrupado as $id_ref => $cantidadTotal) {
+        $consultaStock = $conexion->query("SELECT stock FROM refacciones WHERE id_refaccion = $id_ref");
+        if (!$consultaStock) {
+            echo json_encode(['success' => false, 'message' => 'Error al consultar stock']);
+            exit;
+        }
+        $stockDisponible = $consultaStock->fetch_assoc()['stock'];
+        if ($cantidadTotal > $stockDisponible) {
+            echo json_encode([
+                'success' => false,
+                'message' => "Stock insuficiente para la refacción ID $id_ref. Solo hay $stockDisponible, pero se requieren $cantidadTotal."
+            ]);
+            exit;
+        }
     }
 
     $sqlVenta = "INSERT INTO ventas (id_cliente, fecha_venta, hora, total)
@@ -107,14 +154,13 @@ if ($tipo === 'orden') {
     $id_venta = $conexion->insert_id;
 
     foreach ($refacciones as $ref) {
-    $id_ref = intval($ref['id_refaccion']);
-    $cantidad = intval($ref['cantidad']);
-    $precio = floatval($ref['precio']);
+        $id_ref = intval($ref['id_refaccion']);
+        $cantidad = intval($ref['cantidad']);
+        $precio = floatval($ref['precio']);
 
-    $conexion->query("INSERT INTO detalle_venta (id_venta, id_refaccion, cantidad, precio_unitario)
-                      VALUES ($id_venta, $id_ref, $cantidad, $precio)");
-}
-
+        $conexion->query("INSERT INTO detalle_venta (id_venta, id_refaccion, cantidad, precio_unitario)
+                          VALUES ($id_venta, $id_ref, $cantidad, $precio)");
+    }
 
     echo json_encode(['success' => true]);
 }

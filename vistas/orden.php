@@ -10,13 +10,25 @@ verificar_rol(['Administrador', 'Empleado','Encargado']); // To todos pueden ver
     <form id="formOrdenTrabajo">
       <div class="row g-3">
 
-        <!-- MOTOCICLETA (Autocompletado) -->
-        <div class="col-md-6 position-relative">
-          <label for="motocicleta_nombre" class="form-label">Motocicleta</label>
-          <input type="text" class="form-control" id="motocicleta_nombre" placeholder="Buscar motocicleta..." autocomplete="off">
-          <input type="hidden" name="motocicleta" id="motocicleta_id">
-          <div id="sugerenciasMotos" class="position-absolute bg-white border w-100" style="z-index: 1000;"></div>
-        </div>
+        <!-- CLIENTE -->
+<div class="col-md-6">
+  <label for="cliente" class="form-label">Cliente</label>
+ <select id="cliente" class="form-select" style="width: 100%"></select>
+
+
+    <option value="">Selecciona un cliente</option>
+    <!-- Opciones cargadas con JS -->
+  </select>
+</div>
+
+<!-- MOTOCICLETA DEL CLIENTE -->
+<div class="col-md-6">
+  <label for="motocicleta" class="form-label">Motocicleta</label>
+  <select id="motocicleta" name="motocicleta" class="form-select" disabled>
+    <option value="">Primero selecciona un cliente</option>
+  </select>
+</div>
+
 
         <!-- SERVICIO (Autocompletado) -->
         <div class="col-md-6 position-relative">
@@ -92,12 +104,12 @@ verificar_rol(['Administrador', 'Empleado','Encargado']); // To todos pueden ver
   </div>
 </main>
 
-
+<?php include("../plantillas/footer.php"); ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../js/cargar_motos_por_cliente.js"></script>
 <script src="../js/selcts_orden.js"></script>
 <script src="../js/autocompletar_motos.js"></script>
 <script src="../js/autocompletar_servicios.js"></script>
 <script src="../js/cargar_refacciones_servicio.js"></script>
 <script src="../js/agregar_fila_refaccion.js"></script>
 <script src="../js/enviar_orden_trabajo.js"></script>
-<?php include("../plantillas/footer.php"); ?>

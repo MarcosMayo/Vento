@@ -2,9 +2,11 @@
 const formAgregar = document.getElementById("formAgregarOrden");
 formAgregar.addEventListener("submit", async function (e) {
     e.preventDefault();
+    
 
     const formData = new FormData(formAgregar);
     formData.append("accion", "guardar");
+    
 
     try {
         const response = await fetch("../crud/ordenes_control.php", {
