@@ -76,9 +76,11 @@ verificar_rol(['Administrador', 'Empleado','Encargado']); // To todos pueden ver
           </table>
         </div>
 
-        <div class="text-end">
-          <strong>Total: $<span id="totalVentaDirecta">0.00</span></strong>
-        </div>
+       <div class="text-end me-4">
+  <strong>Total:</strong>
+  <span id="totalVentaDirecta">$0.00</span>
+</div>
+
 
         <div class="text-end mt-3">
           <button class="btn btn-success" id="btnGuardarVentaDirecta">Registrar venta</button>

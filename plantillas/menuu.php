@@ -122,7 +122,7 @@ $usuariosPages = ['usuarios.php'];
 
             <!-- Reportes -->
             <li class="sidebar-item">
-                <a href="#" class="sidebar-link">
+                <a href="../vistas/reportes.php" class="sidebar-link">
                     <i class="bi bi-bar-chart-line"></i>
                     <span>Reportes</span>
                 </a>

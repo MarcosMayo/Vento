@@ -99,7 +99,12 @@ if ($tipo === 'orden') {
 
     $conexion->query("UPDATE orden_trabajo SET estatus = 3 WHERE id_orden = $id_orden");
 
-    echo json_encode(['success' => true]);
+    echo json_encode([
+    'success' => true,
+    'message' => 'Venta registrada desde orden correctamente',
+    'id_venta' => $id_venta
+]);
+
 
 } elseif ($tipo === 'directa') {
     $clienteNombre = $conexion->real_escape_string($_POST['cliente'] ?? '');
@@ -162,6 +167,11 @@ if ($tipo === 'orden') {
                           VALUES ($id_venta, $id_ref, $cantidad, $precio)");
     }
 
-    echo json_encode(['success' => true]);
+   echo json_encode([
+    'success' => true,
+    'message' => 'Venta registrada exitosamente',
+    'id_venta' => $id_venta
+]);
+
 }
 ?>

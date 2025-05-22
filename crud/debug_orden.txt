@@ -1,0 +1,43 @@
+Array
+(
+    [motocicleta] => 5
+    [servicio] => 3
+    [empleado] => 4
+    [usuario] => 1
+    [fecha] => 2025-05-22
+    [hora] => 00:59:53
+    [estatus] => 1
+    [mano_obra] => 1000
+    [refacciones] => Array
+        (
+            [0] => Array
+                (
+                    [id_refaccion] => 5
+                    [cantidad] => 1
+                    [precio] => 500
+                )
+
+            [1] => Array
+                (
+                    [id_refaccion] => 9
+                    [cantidad] => 1
+                    [precio] => 150
+                )
+
+            [2] => Array
+                (
+                    [id_refaccion] => 6
+                    [cantidad] => 1
+                    [precio] => 450
+                )
+
+            [3] => Array
+                (
+                    [id_refaccion] => 5
+                    [cantidad] => 2
+                    [precio] => 500
+                )
+
+        )
+
+)

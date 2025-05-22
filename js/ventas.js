@@ -122,18 +122,11 @@ function actualizarSubtotalFila(fila) {
   actualizarTotalDirecta();
 }
 
-function actualizarTotalDirecta() {
-  let total = 0;
-  document.querySelectorAll('#tablaVentaDirecta tr').forEach(fila => {
-    const cantidad = parseFloat(fila.querySelector('.cantidad')?.value) || 0;
-    const precio = parseFloat(fila.querySelector('.precio')?.value) || 0;
-    total += cantidad * precio;
-  });
-  document.getElementById('totalVentaDirecta').textContent = total.toFixed(2);
-}
 function guardarVentaDesdeOrden() {
   const id_orden = document.getElementById('ordenSeleccion').value;
-  if (!id_orden) return Swal.fire('Atención', 'Selecciona una orden primero', 'warning');
+  if (!id_orden) {
+    return Swal.fire('Atención', 'Selecciona una orden primero', 'warning');
+  }
 
   const formData = new FormData();
   formData.append('tipo', 'orden');
@@ -143,21 +136,24 @@ function guardarVentaDesdeOrden() {
     method: 'POST',
     body: formData
   })
-    .then(async res => {
-      const text = await res.text(); // <-- obtenemos el texto crudo
-      try {
-        const data = JSON.parse(text); // <-- intentamos convertirlo a JSON
-        if (data.success) {
-          Swal.fire('Éxito', 'Venta registrada correctamente', 'success');
-          cargarOrdenesPendientes();
-          document.getElementById('tablaOrdenRefacciones').innerHTML = '';
-          document.getElementById('totalOrden').textContent = '0.00';
-        } else {
-          Swal.fire('Error', data.message || 'No se pudo guardar la venta', 'error');
-        }
-      } catch (e) {
-        console.error('Respuesta inválida del servidor:', text); // <-- mostramos el HTML/error
-        Swal.fire('Error', 'Error inesperado del servidor (ver consola)', 'error');
+    .then(res => res.json()) // ESTA LÍNEA ESCLAVE para convertir la respuesta a JSON
+    .then(data => {
+      if (data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Venta registrada correctamente',
+          text: 'Generando ticket...',
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+        });
+
+        cargarOrdenesPendientes();
+        document.getElementById('tablaOrdenRefacciones').innerHTML = '';
+        document.getElementById('totalOrden').textContent = '0.00';
+      } else {
+        Swal.fire('Error', data.message || 'No se pudo guardar la venta', 'error');
       }
     })
     .catch(err => {
@@ -199,7 +195,16 @@ function guardarVentaDirecta() {
     .then(res => res.json())
 .then(data => {
   if (data.success) {
-    Swal.fire('Éxito', 'Venta registrada correctamente', 'success');
+    Swal.fire({
+      icon: 'success',
+      title: 'Venta registrada correctamente',
+      text: 'Generando ticket...',
+      timer: 1500,
+      showConfirmButton: false
+    }).then(() => {
+      window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+    });
+
     document.getElementById('tablaVentaDirecta').innerHTML = '';
     document.getElementById('totalVentaDirecta').textContent = '0.00';
     document.getElementById('clienteVenta').value = '';
@@ -208,6 +213,7 @@ function guardarVentaDirecta() {
     Swal.fire('Error', data.message || 'No se pudo guardar la venta', 'error');
   }
 })
+
 .catch(err => {
   console.error('Error en respuesta JSON:', err);
   Swal.fire('Error', 'Respuesta no válida del servidor', 'error');
@@ -216,4 +222,33 @@ function guardarVentaDirecta() {
       console.error('Error de red o fetch:', err);
       Swal.fire('Error', 'Hubo un problema al contactar al servidor', 'error');
     });
+}
+
+function actualizarTotalDirecta() {
+  let total = 0;
+
+  document.querySelectorAll('#tablaVentaDirecta tr').forEach(fila => {
+    const cantidadInput = fila.querySelector('.cantidad');
+    const precioInput = fila.querySelector('.precio');
+    const subtotalCell = fila.querySelector('.subtotal');
+
+    const cantidad = parseFloat(cantidadInput?.value) || 0;
+    const precio = parseFloat(precioInput?.value) || 0;
+    const subtotal = cantidad * precio;
+
+    console.log(`Fila: cantidad=${cantidad}, precio=${precio}, subtotal=${subtotal}`);
+
+    if (subtotalCell) {
+      subtotalCell.textContent = `$${subtotal.toFixed(2)}`;
+    }
+
+    total += subtotal;
+  });
+
+  console.log(`TOTAL: ${total}`);
+
+  const totalElement = document.getElementById('totalVentaDirecta');
+  if (totalElement) {
+    totalElement.textContent = `$${total.toFixed(2)}`;
+  }
 }
