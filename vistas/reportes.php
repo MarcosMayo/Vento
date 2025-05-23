@@ -7,29 +7,40 @@ include("../plantillas/menuu.php");
 
 <main class="p-3">
   <div class="container-fluid">
-    <h3 class="text-center mb-4">Reporte de Ventas Realizadas</h3>
+    <h3 class="text-center mb-4">Centro de Reportes</h3>
 
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <label>Desde:</label>
-        <input type="date" id="filtroDesde" class="form-control">
+    <ul class="nav nav-tabs" id="tabsReportes" role="tablist">
+      <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#clientesTab">Clientes</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#serviciosTab">Servicios</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ordenesTab">Órdenes de Trabajo</button></li>
+      <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#ventasTab">Ventas</button></li>
+    </ul>
+
+    <div class="tab-content pt-3">
+
+      <!-- CLIENTES -->
+      <div class="tab-pane fade show active" id="clientesTab">
+        <?php include("../componentes/reporte_clientes.php"); ?>
       </div>
-      <div class="col-md-3">
-        <label>Hasta:</label>
-        <input type="date" id="filtroHasta" class="form-control">
+
+      <!-- SERVICIOS -->
+      <div class="tab-pane fade" id="serviciosTab">
+        <?php include("../componentes/reportes_servicios.php"); ?>
       </div>
-      <div class="col-md-4">
-        <label>Cliente:</label>
-        <input type="text" id="filtroCliente" class="form-control" placeholder="Nombre o apellido">
+
+      <!-- ORDENES -->
+      <div class="tab-pane fade" id="ordenesTab">
+        <?php include("../componentes/reportes_ordenes.php"); ?>
       </div>
-      <div class="col-md-2 d-flex align-items-end">
-        <button class="btn btn-primary w-100" onclick="filtrarVentas()">Buscar</button>
+
+      <!-- VENTAS -->
+      <div class="tab-pane fade" id="ventasTab">
+        <?php include("../componentes/reportes_ventas.php"); ?>
       </div>
+
     </div>
-
-    <div id="tablaVentas"></div>
   </div>
 </main>
 
 <?php include("../plantillas/footer.php"); ?>
-<script src="../js/reportes.js"></script>
+
