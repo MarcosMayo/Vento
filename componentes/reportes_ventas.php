@@ -31,17 +31,26 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => cargarVentasHoy());
 
+
 function cargarVentasHoy(pagina = 1) {
-  fetch('../reportes/reportes_ventas_hoy.php')
+  fetch(`../reportes/reportes_ventas_hoy.php?pagina=${pagina}`)
     .then(res => res.text())
     .then(html => {
       document.getElementById('tablaVentasHoy').innerHTML = html;
     });
 }
 
-function cargarVentasPorFecha(pagina = 1) {
-  const desde = document.getElementById('ventaDesde').value;
-  const hasta = document.getElementById('ventaHasta').value;
+
+function cargarVentasPorFecha(pagina = 1, desde = '', hasta = '') {
+  // Si no vienen por parámetro, tomar del input
+  if (!desde) desde = document.getElementById('ventaDesde').value;
+  if (!hasta) hasta = document.getElementById('ventaHasta').value;
+
+  // Validar que al menos uno esté presente
+  if (!desde && !hasta) {
+    alert('⚠ Por favor selecciona al menos una fecha (Desde o Hasta) para buscar.');
+    return;
+  }
 
   fetch('../reportes/ventas_fecha.php', {
     method: 'POST',
@@ -53,6 +62,7 @@ function cargarVentasPorFecha(pagina = 1) {
       document.getElementById('tablaVentasFecha').innerHTML = html;
     });
 }
+
 
 
 function exportarVentasHoyPDF() {

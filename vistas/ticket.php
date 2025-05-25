@@ -55,15 +55,69 @@ $detalle = $conexion->query($sqlDetalle);
   <meta charset="UTF-8">
   <title>Ticket de Venta</title>
   <style>
-    body { font-family: monospace; padding: 10px; }
-    .ticket { width: 80mm; margin: auto; }
-    .ticket h2, .ticket p { text-align: center; margin: 5px 0; }
-    .linea { border-top: 1px dashed black; margin: 10px 0; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { font-size: 12px; text-align: left; padding: 2px 0; }
-    th { border-bottom: 1px solid black; }
-    td:last-child, th:last-child { text-align: right; }
-  </style>
+  body {
+    font-family: monospace;
+    padding: 10px;
+    margin: 0;
+  }
+
+  .ticket {
+    width: 80mm;
+    margin: auto;
+    padding: 5px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    font-size: 11px;
+    text-align: left;
+    padding: 2px 0;
+  }
+
+  th {
+    border-bottom: 1px solid black;
+  }
+
+  td:last-child, th:last-child {
+    text-align: right;
+  }
+
+  .linea {
+    border-top: 1px dashed black;
+    margin: 10px 0;
+  }
+
+  @media print {
+    body {
+      margin: 0;
+    }
+
+    @page {
+      size: 80mm auto;
+      margin: 0;
+    }
+
+    .ticket {
+      width: 80mm;
+      padding: 5px;
+      margin: 0 auto;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    th, td {
+      font-size: 11px;
+      padding: 2px;
+    }
+  }
+</style>
+
 </head>
 <body onload="window.print()">
   <div class="ticket">

@@ -24,9 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
           div.style.cursor = 'pointer';
           div.style.padding = '4px';
           div.addEventListener('click', () => {
-            inputCliente.value = cliente.nombre_completo;
-            contenedor.innerHTML = '';
-          });
+  inputCliente.value = cliente.nombre_completo;
+  document.getElementById('clienteVentaId').value = cliente.id_cliente; // 👈 este es el paso que faltaba
+  contenedor.innerHTML = '';
+});
+
           contenedor.appendChild(div);
         });
       });

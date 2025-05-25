@@ -42,15 +42,20 @@ document.addEventListener('DOMContentLoaded', () => {
   cargarOrdenesHoy();
 });
 
-function cargarOrdenesPorFecha() {
-  const desde = document.getElementById('ordenDesde').value;
-  const hasta = document.getElementById('ordenHasta').value;
-  const estatus = document.getElementById('ordenEstatus').value;
+function cargarOrdenesPorFecha(pagina = 1, desde = '', hasta = '', estatus = '') {
+  if (!desde) desde = document.getElementById('ordenDesde').value;
+  if (!hasta) hasta = document.getElementById('ordenHasta').value;
+  if (!estatus) estatus = document.getElementById('ordenEstatus').value;
+
+  if (!desde && !hasta) {
+    alert('⚠ Por favor selecciona al menos una fecha (Desde o Hasta) para buscar.');
+    return;
+  }
 
   fetch('../reportes/ordenes_rango.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ desde, hasta, estatus })
+    body: new URLSearchParams({ desde, hasta, estatus, pagina })
   })
     .then(res => res.text())
     .then(html => {
@@ -59,8 +64,9 @@ function cargarOrdenesPorFecha() {
 }
 
 
-function cargarOrdenesHoy() {
-  fetch('../reportes/ordenes_pendientes_hoy.php')
+
+function cargarOrdenesHoy(pagina = 1) {
+  fetch(`../reportes/ordenes_pendientes_hoy.php?pagina=${pagina}`)
     .then(res => res.text())
     .then(html => {
       document.getElementById('tablaOrdenesHoy').innerHTML = html;

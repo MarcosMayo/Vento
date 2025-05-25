@@ -146,8 +146,14 @@ function guardarVentaDesdeOrden() {
           timer: 1500,
           showConfirmButton: false
         }).then(() => {
-          window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+      
         });
+        setTimeout(() => {
+  Swal.close(); // cerrar el modal
+  window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+}, 1500);
+
+
 
         cargarOrdenesPendientes();
         document.getElementById('tablaOrdenRefacciones').innerHTML = '';
@@ -202,8 +208,14 @@ function guardarVentaDirecta() {
       timer: 1500,
       showConfirmButton: false
     }).then(() => {
-      window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+     
     });
+
+    setTimeout(() => {
+  Swal.close(); // cerrar el modal
+  window.open(`../vistas/ticket.php?id=${data.id_venta}`, '_blank');
+}, 1500);
+
 
     document.getElementById('tablaVentaDirecta').innerHTML = '';
     document.getElementById('totalVentaDirecta').textContent = '0.00';

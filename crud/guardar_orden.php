@@ -23,17 +23,7 @@ $estatus = intval($_POST['estatus']);
 $mano_obra = floatval($_POST['mano_obra']);
 $refacciones = json_decode($_POST['refacciones'], true);
 
-file_put_contents('debug_orden.txt', print_r([
-    'motocicleta' => $id_motocicleta,
-    'servicio' => $id_servicio,
-    'empleado' => $id_empleado,
-    'usuario' => $id_usuario,
-    'fecha' => $fecha,
-    'hora' => $hora,
-    'estatus' => $estatus,
-    'mano_obra' => $mano_obra,
-    'refacciones' => $refacciones
-], true));
+
 
 $total_refacciones = 0;
 foreach ($refacciones as $ref) {

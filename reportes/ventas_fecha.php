@@ -6,6 +6,10 @@ $hasta = $_POST['hasta'] ?? '';
 $pagina = intval($_POST['pagina'] ?? 1);
 $por_pagina = 5;
 $offset = ($pagina - 1) * $por_pagina;
+if (empty($desde) && empty($hasta)) {
+  echo "<div class='alert alert-warning'>Por favor selecciona al menos una fecha para realizar la búsqueda.</div>";
+  return;
+}
 
 $where = "1";
 if (!empty($desde)) $where .= " AND v.fecha_venta >= '$desde'";
@@ -65,6 +69,25 @@ while ($venta = $res->fetch_assoc()) {
     </tr>";
   }
 
+  // Mostrar mano de obra si es venta por orden
+  if (!is_null($venta['id_orden'])) {
+    $resMano = $conexion->query("
+      SELECT s.nombre_servicio, s.mano_obra
+      FROM orden_trabajo ot
+      INNER JOIN servicios s ON ot.id_servicio = s.id_servicio
+      WHERE ot.id_orden = {$venta['id_orden']}
+      LIMIT 1
+    ");
+    if ($resMano && $mano = $resMano->fetch_assoc()) {
+      echo "<tr>
+        <td><em>Mano de obra - {$mano['nombre_servicio']}</em></td>
+        <td>1</td>
+        <td>$" . number_format($mano['mano_obra'], 2) . "</td>
+        <td>$" . number_format($mano['mano_obra'], 2) . "</td>
+      </tr>";
+    }
+  }
+
   echo "</tbody></table></div></div>";
 }
 
@@ -73,7 +96,7 @@ echo "<nav><ul class='pagination justify-content-center'>";
 for ($i = 1; $i <= $totalPaginas; $i++) {
   $activo = ($i == $pagina) ? 'active' : '';
   echo "<li class='page-item $activo'>
-          <button class='page-link' onclick='cargarVentasPorFecha($i)'>$i</button>
+          <button class='page-link' onclick=\"cargarVentasPorFecha($i, '$desde', '$hasta')\">$i</button>
         </li>";
 }
 echo "</ul></nav>";

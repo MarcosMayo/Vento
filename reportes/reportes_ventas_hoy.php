@@ -47,14 +47,34 @@ while ($venta = $res->fetch_assoc()) {
   ");
 
   while ($d = $detalles->fetch_assoc()) {
-    $subtotal = $d['cantidad'] * $d['precio_unitario'];
+  $subtotal = $d['cantidad'] * $d['precio_unitario'];
+  echo "<tr>
+    <td>{$d['nombre_refaccion']}</td>
+    <td>{$d['cantidad']}</td>
+    <td>$" . number_format($d['precio_unitario'], 2) . "</td>
+    <td>$" . number_format($subtotal, 2) . "</td>
+  </tr>";
+}
+
+// Mostrar mano de obra si es venta por orden
+if (!is_null($venta['id_orden'])) {
+  $resMano = $conexion->query("
+    SELECT s.nombre_servicio, s.mano_obra
+    FROM orden_trabajo ot
+    INNER JOIN servicios s ON ot.id_servicio = s.id_servicio
+    WHERE ot.id_orden = {$venta['id_orden']}
+    LIMIT 1
+  ");
+  if ($resMano && $mano = $resMano->fetch_assoc()) {
     echo "<tr>
-      <td>{$d['nombre_refaccion']}</td>
-      <td>{$d['cantidad']}</td>
-      <td>$" . number_format($d['precio_unitario'], 2) . "</td>
-      <td>$" . number_format($subtotal, 2) . "</td>
+      <td><em>Mano de obra - {$mano['nombre_servicio']}</em></td>
+      <td>1</td>
+      <td>$" . number_format($mano['mano_obra'], 2) . "</td>
+      <td>$" . number_format($mano['mano_obra'], 2) . "</td>
     </tr>";
   }
+}
+
 
   echo "</tbody></table></div></div>";
 }

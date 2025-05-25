@@ -5,10 +5,12 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 include("../logica/conexion.php");
 session_start();
+date_default_timezone_set('Etc/GMT+6'); 
+$conexion->query("SET time_zone = '-06:00'");
 header('Content-Type: application/json');
 
 $tipo = $_POST['tipo'] ?? '';
-file_put_contents("debug_tipo.txt", "Tipo recibido: " . $tipo);
+
 
 if (!in_array($tipo, ['orden', 'directa'])) {
     echo json_encode(['success' => false, 'message' => 'Petición inválida']);
@@ -107,16 +109,13 @@ if ($tipo === 'orden') {
 
 
 } elseif ($tipo === 'directa') {
-    $clienteNombre = $conexion->real_escape_string($_POST['cliente'] ?? '');
+    $id_cliente = intval($_POST['cliente_id'] ?? 38); // 🔧 Esta es la línea corregida
     $refacciones = json_decode($_POST['refacciones'] ?? '[]', true);
+
     if (count($refacciones) === 0) {
         echo json_encode(['success' => false, 'message' => 'No hay refacciones válidas']);
         exit;
     }
-
-    $queryCliente = "SELECT id_cliente FROM clientes WHERE CONCAT(nombre, ' ', apellido_paterno) = '$clienteNombre' LIMIT 1";
-    $res = $conexion->query($queryCliente);
-    $id_cliente = ($res && $fila = $res->fetch_assoc()) ? $fila['id_cliente'] : 38;
 
     $total = 0;
     foreach ($refacciones as $ref) {
@@ -167,11 +166,11 @@ if ($tipo === 'orden') {
                           VALUES ($id_venta, $id_ref, $cantidad, $precio)");
     }
 
-   echo json_encode([
-    'success' => true,
-    'message' => 'Venta registrada exitosamente',
-    'id_venta' => $id_venta
-]);
-
+    echo json_encode([
+        'success' => true,
+        'message' => 'Venta registrada exitosamente',
+        'id_venta' => $id_venta
+    ]);
 }
+
 ?>
